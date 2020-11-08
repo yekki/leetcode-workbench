@@ -1,4 +1,7 @@
+import time
 import operator
+import timeit
+from functools import wraps
 
 
 class ListNode:
@@ -37,6 +40,16 @@ class ListNode:
 
     def __eq__(self, o: object) -> bool:
         return operator.eq(self._link2list(), o._link2list())
+
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        end = time.time()
+        gap = (end - start) * 1000 * 1000
+        print('Running time: %s μs' % gap)
+    return wrapper
 
 
 if __name__ == "__main__":
