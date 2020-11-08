@@ -18,23 +18,28 @@ def help() -> None:
 
 
 def parse_cmd_args() -> int:
+
+    if len(sys.argv) < 2:
+        help()
+
     num = sys.argv[1]
 
-    if len(sys.argv) < 2 or num is None or (not num.isnumeric()):
-        help()
-    else:
+    if num.isnumeric():
         num = int(num)
-        method_list = [func for func in dir(SolutionTestCase) if callable(
-            getattr(SolutionTestCase, func)) and func.startswith("test_")]
+    else:
+        help()
 
-        count = len(method_list)
+    method_list = [func for func in dir(SolutionTestCase) if callable(
+        getattr(SolutionTestCase, func)) and func.startswith("test_")]
 
-        if num > count:
-            print(
-                f'The num is beyond the count of test methods, there are only {count} test methods in your test case. Please check it and try again!')
-            exit(-1)
-        else:
-            return num
+    count = len(method_list)
+
+    if num > count:
+        print(
+            f'The num is beyond the count of test methods, there are only {count} test methods in your test case. Please check it and try again!')
+        exit(-1)
+    else:
+        return num
 
 
 if __name__ == '__main__':
