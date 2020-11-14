@@ -2,7 +2,7 @@ import unittest
 from common import timer
 from n001.solution import Solution as S1, INPUT as I1, EXPECTED as E1
 from n002.solution import Solution as S2, INPUT as I2, EXPECTED as E2
-
+from n830.solution import Solution as S830, INPUT as I830, EXPECTED as E830
 
 class SolutionTestCase(unittest.TestCase):
 
@@ -18,3 +18,10 @@ class SolutionTestCase(unittest.TestCase):
         s = S2()
         result = s.addTwoNumbers(I2[0], I2[1])
         self.assertTrue(result == E2)
+
+    @timer
+    def test_830(self):
+        s = S830()
+        result = s.largeGroupPositions(I830)
+        print(result)
+        self.assertTrue(E830, result)
