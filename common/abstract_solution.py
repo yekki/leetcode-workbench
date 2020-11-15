@@ -8,7 +8,7 @@ class AbstractSolution(metaclass=abc.ABCMeta):
             self.samples = json.load(fp)
 
     @abc.abstractmethod
-    def _validate(self, input, expected):
+    def _validate(self, input, expected) -> bool:
         pass
 
     def validate(self) -> bool:

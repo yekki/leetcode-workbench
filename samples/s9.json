@@ -1,4 +1,5 @@
-[{
+[
+		{
 			"input": -121,
 			"expected": false
 		},

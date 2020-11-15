@@ -1,11 +1,8 @@
 from common import ListNode
+from common import AbstractSolution
 
 
-INPUT = (ListNode([2, 4, 3]), ListNode([5, 6, 4]))
-EXPECTED = ListNode([7, 0, 8])
-
-
-class Solution:
+class Solution(AbstractSolution):
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         dummy = ListNode(0)
         node = dummy
@@ -24,3 +21,11 @@ class Solution:
             node = node.next
 
         return dummy.next
+
+    def _validate(self, input, expected) -> bool:
+        l1 = input['p1']
+        l2 = input['p2']
+        e = ListNode(expected)
+        ret = self.addTwoNumbers(ListNode(l1), ListNode(l2))
+
+        return ret == e

@@ -1,11 +1,8 @@
 from typing import List
+from common import AbstractSolution
 
 
-INPUT = 'abbxxxxzzy'
-EXPECTED = [[3,6]]
-
-
-class Solution:
+class Solution(AbstractSolution):
     def largeGroupPositions(self, s: str) -> List[List[int]]:
         res = []
         counter = 1
@@ -25,3 +22,8 @@ class Solution:
             res.append([i - counter + 1, i])
 
         return res
+
+    def _validate(self, input, expected) -> bool:
+        ret = self.largeGroupPositions(input)
+
+        return ret == expected
