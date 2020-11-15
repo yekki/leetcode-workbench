@@ -17,26 +17,31 @@ def timer(func):
     return wrapper
 
 
-def _print_result(ret):
-    if ret:
-        click.secho('测试通过！', fg='blue')
+def print_result(n, result):
+    if result:
+        click.secho(f'第{n}道题测试通过！', fg='blue')
     else:
-        click.secho('测试不通过！', fg='red')
+        click.secho('第{n}道题不测试通过！', fg='red')
 
 
-def _help() -> None:
+def help() -> None:
     print('''
     使用说明：
-    ./main.py [编号]
+    ./main.py [n/all]
+    n: n为正整数，代表测试第几道题
+    all: 测试所有题
     ''')
     exit(0)
 
 
-def _parse_cmd_args() -> int:
+def parse_cmd_args() -> int:
     if len(sys.argv) < 2:
         help()
 
     num = sys.argv[1]
+
+    if num == 'all':
+        return -1 # -1 代表all
 
     if num.isnumeric():
         num = int(num)
@@ -46,9 +51,31 @@ def _parse_cmd_args() -> int:
     return num
 
 
+def get_modules(package="."):
+    modules = []
+    files = os.listdir(package)
+
+    for file in files:
+        if not file.startswith("__"):
+            name, ext = os.path.splitext(file)
+            modules.append(name)
+
+    return modules
+
+
 @timer
+def _run(n: int) -> None:
+    lib = importlib.import_module(f'problems.s{n}')
+    s = lib.Solution(os.path.join(os.getcwd(), 'samples', f's{n}.json'))
+    print_result(n, s.validate())
+
+
 def run():
-    num = _parse_cmd_args()
-    lib = importlib.import_module(f'problems.s{num}')
-    s = lib.Solution(os.path.join(os.getcwd(), 'samples', f's{num}.json'))
-    _print_result(s.validate())
+    ret = parse_cmd_args()
+
+    if ret == -1:
+        modules = get_modules('problems')
+        for m in modules:
+            _run(int(m[1:]))
+    else:
+        _run(ret)

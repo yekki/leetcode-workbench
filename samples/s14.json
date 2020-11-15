@@ -1,0 +1,18 @@
+[
+  {
+    "input": [
+      "flower",
+      "flow",
+      "flight"
+    ],
+    "expected": "fl"
+  },
+  {
+    "input": [
+      "dog",
+      "racecar",
+      "car"
+    ],
+    "expected": ""
+  }
+]

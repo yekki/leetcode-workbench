@@ -24,6 +24,6 @@ class Solution(AbstractSolution):
         return res
 
     def _validate(self, input, expected) -> bool:
-        ret = self.largeGroupPositions(input)
+        result = self.largeGroupPositions(input)
 
-        return ret == expected
+        return result == expected

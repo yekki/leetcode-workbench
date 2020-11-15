@@ -13,8 +13,8 @@ class Solution(AbstractSolution):
     def _validate(self, input, expected) -> bool:
         nums = input['p1']
         target = input['p2']
-        ret = self.twoSum(nums, target)
+        result = self.twoSum(nums, target)
 
-        return ret == expected
+        return result == expected
 
 

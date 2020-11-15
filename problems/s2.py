@@ -26,6 +26,6 @@ class Solution(AbstractSolution):
         l1 = input['p1']
         l2 = input['p2']
         e = ListNode(expected)
-        ret = self.addTwoNumbers(ListNode(l1), ListNode(l2))
+        result = self.addTwoNumbers(ListNode(l1), ListNode(l2))
 
-        return ret == e
+        return result == e
