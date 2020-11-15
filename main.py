@@ -44,7 +44,10 @@ def parse_cmd_args() -> int:
 
 
 if __name__ == '__main__':
-    num = parse_cmd_args()
-    suite = unittest.TestSuite()
-    suite.addTest(SolutionTestCase(f'test_{num}'))
-    unittest.TextTestRunner().run(suite)
+    # num = parse_cmd_args()
+    # suite = unittest.TestSuite()
+    # suite.addTest(SolutionTestCase(f'test_{num}'))
+    # unittest.TextTestRunner().run(suite)
+    from n007.solution import Solution
+    s = Solution()
+    print(s.validate())

@@ -1,6 +1,7 @@
 import time
 import operator
 import timeit
+import abc
 from functools import wraps
 
 
@@ -50,6 +51,25 @@ def timer(func):
         gap = (end - start) * 1000 * 1000
         print('Running time: %s μs' % gap)
     return wrapper
+
+
+class AbstractSolution(metaclass=abc.ABCMeta):
+    @abc.abstractproperty
+    def samples(self) -> list:
+        pass
+
+    @abc.abstractmethod
+    def _validate(self, input, expected):
+        pass
+
+    def validate(self) -> bool:
+        data = self.samples()
+
+        for d in data:
+            ret = self._validate(d['input'], ['expected'])
+            if not ret:
+                return ret
+        return True
 
 
 if __name__ == "__main__":

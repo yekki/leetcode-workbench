@@ -8,5 +8,3 @@ class Solution:
         return ret if ret >= pow(-2, 31) and ret <= pow(2, 31) - 1 else 0
 
 
-if __name__ == "__main__":
-    print("hello")
