@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
-from solutions import SolutionTestCase
-import unittest
 import sys
+import os
+import importlib
+from common import print_result
 
 
 def help() -> None:
@@ -30,24 +31,10 @@ def parse_cmd_args() -> int:
         help()
 
     return num
-    # method_list = [func for func in dir(SolutionTestCase) if callable(
-    #     getattr(SolutionTestCase, func)) and func.startswith("test_")]
-    #
-    # count = len(method_list)
-    #
-    # if num > count:
-    #     print(
-    #         f'The num is beyond the count of test methods, there are only {count} test methods in your test case. Please check it and try again!')
-    #     exit(-1)
-    # else:
-    #     return num
 
 
 if __name__ == '__main__':
-    # num = parse_cmd_args()
-    # suite = unittest.TestSuite()
-    # suite.addTest(SolutionTestCase(f'test_{num}'))
-    # unittest.TextTestRunner().run(suite)
-    from n007.solution import Solution
-    s = Solution()
-    print(s.validate())
+    num = parse_cmd_args()
+    lib = importlib.import_module(f'problems.s{num}')
+    s = lib.Solution(os.path.join(os.getcwd(), 'samples', f'{num}.json'))
+    print_result(s.validate())
