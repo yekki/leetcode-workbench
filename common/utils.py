@@ -21,7 +21,7 @@ def print_result(n, result):
     if result:
         click.secho(f'第{n}道题测试通过！', fg='blue')
     else:
-        click.secho('第{n}道题不测试通过！', fg='red')
+        click.secho(f'第{n}道题不测试通过！', fg='red')
 
 
 def help() -> None:
@@ -32,23 +32,6 @@ def help() -> None:
     all: 测试所有题
     ''')
     exit(0)
-
-
-def parse_cmd_args() -> int:
-    if len(sys.argv) < 2:
-        help()
-
-    num = sys.argv[1]
-
-    if num == 'all':
-        return -1 # -1 代表all
-
-    if num.isnumeric():
-        num = int(num)
-    else:
-        help()
-
-    return num
 
 
 def get_modules(package="."):
@@ -64,18 +47,20 @@ def get_modules(package="."):
 
 
 @timer
-def _run(n: int) -> None:
+def _run(n: str) -> None:
     lib = importlib.import_module(f'problems.s{n}')
     s = lib.Solution(os.path.join(os.getcwd(), 'samples', f's{n}.json'))
     print_result(n, s.validate())
 
 
 def run():
-    ret = parse_cmd_args()
+    arg = sys.argv[1]
 
-    if ret == -1:
+    if arg == 'all':
         modules = get_modules('problems')
         for m in modules:
             _run(int(m[1:]))
+    elif arg == 'help':
+        help()
     else:
-        _run(ret)
+        _run(arg)
