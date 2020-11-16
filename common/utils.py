@@ -19,7 +19,7 @@ def timer(func):
 
 def print_result(n, result):
     if result:
-        click.secho(f'第{n}道题测试通过！', fg='blue')
+        click.secho(f'第{n}道题测试通过！', fg='green')
     else:
         click.secho(f'第{n}道题不测试通过！', fg='red')
 
@@ -59,7 +59,7 @@ def run():
     if arg == 'all':
         modules = get_modules('problems')
         for m in modules:
-            _run(int(m[1:]))
+            _run(m[1:])
     elif arg == 'help':
         help()
     else:
