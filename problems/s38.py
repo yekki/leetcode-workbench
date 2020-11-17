@@ -9,7 +9,6 @@ class Solution(AbstractSolution):
             s = re.sub(r'(.)\1*', lambda m: str(len(m.group(0))) + m.group(1), s)
         return s
 
-
     def _validate(self, input, expected) -> bool:
         result = self.countAndSay(input)
 
