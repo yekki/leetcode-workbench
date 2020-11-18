@@ -1,5 +1,4 @@
-from common import ListNode
-from common import AbstractSolution
+from . import AbstractSolution, ListNode
 
 
 class Solution(AbstractSolution):

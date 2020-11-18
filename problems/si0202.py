@@ -1,4 +1,4 @@
-from common import AbstractSolution, ListNode
+from . import AbstractSolution, ListNode
 
 
 class Solution(AbstractSolution):

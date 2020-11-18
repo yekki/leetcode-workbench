@@ -1,5 +1,4 @@
-from common import AbstractSolution
-from structure.tree_node import TreeNode
+from . import AbstractSolution, TreeNode
 
 
 class Solution(AbstractSolution):

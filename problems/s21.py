@@ -1,5 +1,5 @@
-from common import AbstractSolution
-from common import ListNode
+from . import AbstractSolution, ListNode
+
 
 class Solution(AbstractSolution):
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:

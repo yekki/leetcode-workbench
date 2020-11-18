@@ -1,5 +1,6 @@
-from common import AbstractSolution
 from typing import List
+from . import AbstractSolution
+
 
 
 class Solution(AbstractSolution):

@@ -1,4 +1,4 @@
-from common import AbstractSolution
+from . import AbstractSolution
 
 
 class Solution(AbstractSolution):
