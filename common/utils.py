@@ -45,7 +45,7 @@ def get_modules(package="."):
 
     return modules
 
-
+#TODO: timer should be div by the count of tests
 @timer
 def _run(n: str) -> None:
     lib = importlib.import_module(f'problems.s{n}')
