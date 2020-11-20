@@ -1,5 +1,7 @@
 import abc
 import json
+import time
+import click
 
 
 class AbstractSolution(metaclass=abc.ABCMeta):
@@ -14,11 +16,20 @@ class AbstractSolution(metaclass=abc.ABCMeta):
     def _validate(self, input, expected) -> bool:
         pass
 
-    def validate(self) -> bool:
+    def validate(self):
         data = self.samples
 
-        for d in data:
+        for i, d in enumerate(data):
+            start = time.time()
             ret = self._validate(d['input'], d['expected'])
-            if not ret:
-                return ret
-        return True
+            color = 'green'
+            if ret:
+                ret = '通过'
+            else:
+                ret = '不通过'
+                color = 'red'
+
+            end = time.time()
+            gap = (end - start) * 1000 * 1000
+            click.secho(f'测试用例：{i+1}, 结果：{ret}，耗时: {gap:.2f}μs' , fg=color)
+

@@ -1,30 +1,9 @@
-from functools import wraps
-import time
-import click
 import sys
 import importlib
 import os
+import click
 
-
-def timer(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start = time.time()
-        func(*args, **kwargs)
-        end = time.time()
-        gap = (end - start) * 1000 * 1000
-        click.secho('耗时: %sμs' % gap, fg='white')
-    return wrapper
-
-
-def print_result(n, result):
-    if result:
-        click.secho(f'第{n}道题测试通过！', fg='green')
-    else:
-        click.secho(f'第{n}道题不测试通过！', fg='red')
-
-
-def help() -> None:
+def help():
     print('''
     使用说明：
     ./main.py [n/all]
@@ -33,6 +12,12 @@ def help() -> None:
     ''')
     exit(0)
 
+def msgbox(msg: str, color:str):
+    length = 60
+    click.secho('*' * length, fg=color)
+    n = ((length - len(msg)) - 1)// 2
+    click.secho(' ' * n + msg + ' ' * n, fg=color)
+    click.secho('*' * length, fg=color)
 
 def get_modules(package="."):
     modules = []
@@ -45,13 +30,11 @@ def get_modules(package="."):
 
     return modules
 
-#TODO: timer should be div by the count of tests
-@timer
-def _run(n: str) -> None:
+def _run(n: str):
+    msgbox(f'第{n}道题', color='white')
     lib = importlib.import_module(f'problems.s{n}')
-    s = lib.Solution(os.path.join(os.getcwd(), 'samples', f's{n}.json'))
-    print_result(n, s.validate())
-
+    solution = lib.Solution(os.path.join(os.getcwd(), 'samples', f's{n}.json'))
+    solution.validate()
 
 def run():
     arg = sys.argv[1]

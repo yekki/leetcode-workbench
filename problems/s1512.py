@@ -2,7 +2,6 @@ from typing import List
 from . import AbstractSolution
 
 
-
 class Solution(AbstractSolution):
     def numIdenticalPairs(self, nums: List[int]) -> int:
         from collections import Counter
