@@ -1,7 +1,7 @@
-from . import AbstractSolution
+from common import Problem
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def countAndSay(self, n: int) -> str:
         s = '1'
         import re
@@ -14,3 +14,6 @@ class Solution(AbstractSolution):
 
         return result == expected
 
+
+if __name__ == '__main__':
+    Solution.test(__file__)

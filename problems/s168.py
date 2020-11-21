@@ -1,7 +1,7 @@
-from . import AbstractSolution
+from common import Problem
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def convertToTitle(self, n: int) -> str:
         l = []
         while (n > 0):
@@ -40,3 +40,7 @@ class Solution(AbstractSolution):
         result = self.convertToTitle_1(input)
 
         return result == expected
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)

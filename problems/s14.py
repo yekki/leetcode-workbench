@@ -1,18 +1,18 @@
-from . import AbstractSolution
+from common import Problem
 from typing import List
 
 
-class Solution(AbstractSolution):
-    # def longestCommonPrefix(self, strs: List[str]) -> str:
-    #     if not strs: return ""
-    #     s1 = min(strs)
-    #     s2 = max(strs)
-    #     for i, x in enumerate(s1):
-    #         if x != s2[i]:
-    #             return s2[:i]
-    #     return s1
+class Solution(Problem):
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        if not strs: return ""
+        s1 = min(strs)
+        s2 = max(strs)
+        for i, x in enumerate(s1):
+            if x != s2[i]:
+                return s2[:i]
+        return s1
 
-    def longestCommonPrefix(self, strs):
+    def longestCommonPrefix_1(self, strs):
         if not strs: return ""
         ss = list(map(set, zip(*strs)))
         res = ""
@@ -24,6 +24,10 @@ class Solution(AbstractSolution):
         return res
 
     def _validate(self, input, expected) -> bool:
-        result = self.longestCommonPrefix(input)
+        result = self.longestCommonPrefix_1(input)
 
         return result == expected
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)

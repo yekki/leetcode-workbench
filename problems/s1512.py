@@ -1,8 +1,8 @@
 from typing import List
-from . import AbstractSolution
+from common import Problem
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def numIdenticalPairs(self, nums: List[int]) -> int:
         from collections import Counter
         dic = Counter(nums)
@@ -12,3 +12,7 @@ class Solution(AbstractSolution):
         result = self.numIdenticalPairs(input)
 
         return result == expected
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)

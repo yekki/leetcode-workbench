@@ -7,7 +7,7 @@ class Config:
         if config_file:
             self.path = config_file
         else:
-            self.path = os.path.abspath(os.path.join(__file__, '../../config.json'))
+            self.path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'config.json'))
 
         if not os.path.exists(self.path):
             with open(self.path, 'w') as f:
@@ -15,25 +15,16 @@ class Config:
                 self._data['username'] = ''
                 self._data['password'] = ''
                 self._data['output_dir'] = ''
-                self._data['time_interval']=0.1
+                self._data['time_interval'] = 0.1
+                self._data['root_dir'] = ''
                 json.dump(self._data, f)
         else:
             with open(self.path, 'r') as f:
                  self._data = json.load(f)
 
-    def update(self):
-        username = input('请输入用户名:')
-        password = input('请输入密码：')
-        output_dir = input('请选择输出目录：')
-        data = dict(username=username,
-                    password=password,
-                    outputDir=output_dir,
-                    timeInterval=0.1)
-        with open(self.path, 'w') as f:
-            json.dump(data, f)
-
-        self._data = data
-        return data
+    @property
+    def root_dir(self):
+        return self._data['root_dir']
 
     @property
     def username(self):
@@ -51,10 +42,5 @@ class Config:
     def time_interval(self):
         return self._data['time_interval']
 
-config = Config()
 
-if __name__ == '__main__':
-
-    config = Config()
-    print(config.username)
-    #config.update()
+conf = Config()

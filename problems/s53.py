@@ -1,8 +1,8 @@
-from . import AbstractSolution
+from common import Problem
 from typing import List
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def maxSubArray(self, nums: List[int]) -> int:
         if not nums:
             return None
@@ -22,3 +22,7 @@ class Solution(AbstractSolution):
         result = self.maxSubArray(input)
 
         return result == expected
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)

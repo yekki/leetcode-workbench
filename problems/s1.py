@@ -1,8 +1,8 @@
-from . import AbstractSolution
+from common import Problem
 from typing import List
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         for i in range(len(nums)):
             gap = target - nums[i]
@@ -18,3 +18,5 @@ class Solution(AbstractSolution):
         return result == expected
 
 
+if __name__ == '__main__':
+    Solution.test(__file__)

@@ -1,7 +1,8 @@
-from . import AbstractSolution, ListNode
+from common import Problem
+from structure import ListNode
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def isPalindrome(self, head: ListNode) -> bool:
         vals = []
         p = head
@@ -17,3 +18,7 @@ class Solution(AbstractSolution):
         result = self.isPalindrome(ListNode(input))
 
         return expected == result
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)

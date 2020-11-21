@@ -1,9 +1,9 @@
-from . import AbstractSolution
+from common import Problem
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def lengthOfLastWord(self, s: str) -> int:
-        words = s.strip.split(' ')
+        words = s.strip().split(' ')
 
         return len(words[len(words) - 1])
 
@@ -11,3 +11,7 @@ class Solution(AbstractSolution):
         result = self.lengthOfLastWord(input)
 
         return result == expected
+
+
+if __name__ == '__main__':
+    Solution.test()

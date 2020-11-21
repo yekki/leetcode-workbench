@@ -1,7 +1,7 @@
-from . import AbstractSolution
+from common import Problem, test
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def titleToNumber(self, s: str) -> int:
 
         num = 0
@@ -14,3 +14,8 @@ class Solution(AbstractSolution):
         result = self.titleToNumber(input)
 
         return result == expected
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)
+

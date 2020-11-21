@@ -1,7 +1,8 @@
-from . import AbstractSolution, ListNode
+from common import Problem
+from structure import ListNode
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         dummy = ListNode(0)
         node = dummy
@@ -28,3 +29,7 @@ class Solution(AbstractSolution):
         result = self.addTwoNumbers(ListNode(l1), ListNode(l2))
 
         return result == e
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)

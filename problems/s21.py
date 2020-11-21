@@ -1,7 +1,8 @@
-from . import AbstractSolution, ListNode
+from common import Problem
+from structure import ListNode
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
         head = ListNode(0)
         p = head
@@ -29,3 +30,6 @@ class Solution(AbstractSolution):
 
         return ListNode(expected) == result
 
+
+if __name__ == '__main__':
+    Solution.test(__file__)

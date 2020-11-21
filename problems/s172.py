@@ -1,7 +1,7 @@
-from . import AbstractSolution
+from common import Problem
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def trailingZeroes(self, n: int) -> int:
         result = 1
 
@@ -19,3 +19,7 @@ class Solution(AbstractSolution):
         result = self.trailingZeroes(input)
 
         return expected == result
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)

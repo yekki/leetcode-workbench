@@ -1,8 +1,8 @@
-from . import AbstractSolution
+from common import Problem
 from typing import List
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def largeGroupPositions(self, s: str) -> List[List[int]]:
         res = []
         counter = 1
@@ -27,3 +27,7 @@ class Solution(AbstractSolution):
         result = self.largeGroupPositions(input)
 
         return result == expected
+
+
+if __name__ == '__main__':
+    Solution.test(__file__)

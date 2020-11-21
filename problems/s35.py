@@ -1,8 +1,8 @@
-from . import AbstractSolution
+from common import Problem
 from typing import List
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def searchInsert(self, nums: List[int], target: int) -> int:
         if target in nums:
             return nums.index(target)
@@ -18,3 +18,6 @@ class Solution(AbstractSolution):
 
         return result == expected
 
+
+if __name__ == '__main__':
+    Solution.test(__file__)

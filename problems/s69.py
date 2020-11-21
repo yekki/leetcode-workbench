@@ -1,8 +1,8 @@
-from . import AbstractSolution
+from common import Problem
 import math
 
 
-class Solution(AbstractSolution):
+class Solution(Problem):
     def mySqrt(self, x: int) -> int:
         if x == 0:
             return 0
@@ -15,7 +15,5 @@ class Solution(AbstractSolution):
         return expected == result
 
 
-'''
-TODO: 学习数据公式
-
-'''
+if __name__ == '__main__':
+    Solution.test(__file__)
