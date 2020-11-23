@@ -5,8 +5,8 @@ from common import run, get_modules
 
 
 @click.command()
-@click.option('--pc', default=-1, help='题目编号')
-@click.option('--tc', default=-1, help='测试用例编号')
+@click.option('--pc', '-p', default=-1, type=click.INT, help='题目编号')
+@click.option('--tc', '-t', default=-1, type=click.INT, help='测试用例编号')
 def main(pc, tc):
     if pc == -1:
         modules = get_modules('problems')

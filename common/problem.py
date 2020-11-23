@@ -29,7 +29,7 @@ class Problem(metaclass=abc.ABCMeta):
             ret = '不通过'
             color = 'red'
         gap = (end - start) * 1000 * 1000
-        click.secho(f'测试用例：{i}, 结果：{ret}，耗时: {gap:.2f}μs', fg=color)
+        click.secho(f'测试用例-{i}: 结果：{ret}，耗时: {gap:.2f} 微秒', fg=color)
 
     def validate(self, test_num: int):
         if test_num != -1:
@@ -39,5 +39,5 @@ class Problem(metaclass=abc.ABCMeta):
                 self._run_test(i)
 
     @staticmethod
-    def test(filename, test_num):
+    def test(filename, test_num=-1):
         common.test(filename, test_num)

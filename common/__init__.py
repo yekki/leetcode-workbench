@@ -26,7 +26,7 @@ def get_modules(package="."):
 
 
 def run(p_num: int, test_case_num: int = -1):
-    msgbox(f'第{p_num}道题', color='white')
+    msgbox(f'第{p_num}道题', color='blue')
     lib = importlib.import_module(f'problems.s{p_num}')
     solution = lib.Solution(os.path.join(conf.root_dir, 'samples', f's{p_num}.json'))
     solution.validate(test_case_num)
