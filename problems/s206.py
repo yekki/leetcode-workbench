@@ -11,7 +11,7 @@ class Solution(Problem):
 
     def _validate(self, input, expected) -> bool:
         ln = ListNode(input)
-        result = self.reverseList(ln).fix_head()
+        result = self.reverseList(ln).fix_none()
 
         return result == ListNode(expected)
 

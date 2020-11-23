@@ -1,8 +1,7 @@
-import operator
 
 
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x=None):
         if isinstance(x, list):
             self.val = x[0]
             p = self
@@ -13,6 +12,15 @@ class ListNode:
         else:
             self.val = x
             self.next = None
+
+    def to_list(self):
+        p = self
+        l = []
+        while p:
+            l.append(p.val)
+            p = p.next
+
+        return l
 
     def __str__(self) -> str:
         output = ''
@@ -40,21 +48,7 @@ class ListNode:
 
         return True
 
-
-
-    # def _link2list(self):
-    #     l = []
-    #     p = self
-    #     while p.next is not None:
-    #         l.append(p.val)
-    #         p = p.next
-    #     l.append(p.val)
-    #     return l
-    #
-    # def __eq__(self, o: object) -> bool:
-    #     return operator.eq(self._link2list(), o._link2list())
-
-    def fix_head(self):
+    def fix_none(self):
         p = self
         if self.val is None:
             while p.next is not None:
@@ -68,5 +62,7 @@ if __name__ == "__main__":
     l1 = ListNode([2, 4, 8, 12, 14])
     l2 = ListNode([2, 4, 8, 13, 14])
     l3 = ListNode([2, 4, 8, 13, None])
+    l4 = ListNode([1, 2, None])
     print(l1 == l2)
     print(l3)
+    print(l4.to_list())
