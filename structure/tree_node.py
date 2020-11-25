@@ -7,21 +7,23 @@ class TreeNode(object):
 
 class Tree(object):
     def __init__(self, values):
-        self.root = None
+        self._root = None
 
         for v in values:
             self.add(v)
 
+    @property
     def root(self):
-        self.root
+        self._root
 
     def add(self, val):  # 二叉树，添加一个元素
         node = TreeNode(val=val)
-        if self.root is None:
-            self.root = node
+        if self._root is None:
+            self._root = node
             return
 
-        queue = [self.root]
+        queue = [self._root]
+
         while queue:
             cur_node = queue.pop(0)
             if cur_node.left is None:
@@ -88,10 +90,9 @@ class Tree(object):
 
     def print(self):
         # 广度优先遍历值
-        ls = [self.root]
+        ls = [self._root]
         pre_ls = []
-        data = [[self.root.val]]
-        ret = ''
+        data = [[self._root.val]]
 
         while ls:
             cur = ls.pop(0)
