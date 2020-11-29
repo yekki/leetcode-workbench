@@ -8,7 +8,7 @@ class Solution(Problem):
             gap = target - nums[i]
             if gap in nums[i + 1:]:
                 return [i, nums[i + 1:].index(gap) + i + 1]
-        return None
+        return Noneclear
 
     def _validate(self, input, expected) -> bool:
         nums = input['p1']
