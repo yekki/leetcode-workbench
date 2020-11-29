@@ -2,7 +2,6 @@ import os
 import click
 import importlib
 from common.problem import Problem
-from config import conf
 
 
 def msgbox(msg: str, color: str):
@@ -25,17 +24,24 @@ def get_modules(package="."):
     return modules
 
 
-def run(p_num: int, test_case_num: int = -1):
+def _get_num(filepath: str) -> int:
+    p_num = filepath.split('/')[-1].split('.')[0][1:]
+    if p_num.isdigit():
+        return int(p_num)
+    else:
+        raise ValueError(filepath)
+
+
+def run(sample_file: str, test_case_num: int = -1):
+    p_num = _get_num(sample_file)
     msgbox(f'第{p_num}道题', color='blue')
     lib = importlib.import_module(f'problems.s{p_num}')
-    solution = lib.Solution(os.path.join(conf.root_dir, 'samples', f's{p_num}.json'))
+    solution = lib.Solution(sample_file)
     solution.validate(test_case_num)
 
 
-def test(file: str, test_case_num: int = -1):
-    filename = file.split('/')[-1].split('.')[0]
-    p_num = filename[1:]
-    if p_num.isdigit():
-        run(p_num, test_case_num)
-    else:
-        raise ValueError(filename)
+def test(py_filepath: str, test_case_num: int = -1):
+    p_num = _get_num(py_filepath)
+    sample_file = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(py_filepath))), "samples", f's{p_num}.json')
+    run(sample_file, test_case_num)
+
