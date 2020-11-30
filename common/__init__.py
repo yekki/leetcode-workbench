@@ -44,4 +44,3 @@ def test(py_filepath: str, test_case_num: int = -1):
     p_num = _get_num(py_filepath)
     sample_file = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(py_filepath))), "samples", f's{p_num}.json')
     run(sample_file, test_case_num)
-
