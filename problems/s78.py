@@ -9,15 +9,13 @@ class Solution(Problem):
 
         for i in range(len(nums) +1):
             for j in itertools.combinations(nums, i):
-                ret.append(j)
+                ret.append(list(j))
 
         return ret
 
-    #TODO
     def _validate(self, input, expected) -> bool:
-        result = None
-
-        return result == expected
+        result = self.subsets(input)
+        return sorted(result) == sorted(expected)
 
 
 if __name__ == '__main__':
