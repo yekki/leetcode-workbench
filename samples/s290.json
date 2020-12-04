@@ -1,0 +1,30 @@
+[
+  {
+    "input": {
+      "p1": "abba",
+      "p2": "dog cat cat dog"
+    },
+    "expected": true
+  },
+  {
+    "input": {
+      "p1": "abba",
+      "p2": "dog cat cat fish"
+    },
+    "expected": false
+  },
+  {
+    "input": {
+      "p1": "aaaa",
+      "p2": "dog cat cat fish"
+    },
+    "expected": false
+  },
+  {
+    "input": {
+      "p1": "abba",
+      "p2": "dog dog dog dog"
+    },
+    "expected": false
+  }
+]
