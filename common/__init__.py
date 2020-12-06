@@ -1,6 +1,8 @@
 import os
 import click
 import importlib
+import time
+from functools import wraps
 from common.problem import Problem
 
 
@@ -44,3 +46,15 @@ def test(py_filepath: str, test_case_num: int = -1):
     p_num = _get_num(py_filepath)
     sample_file = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(py_filepath))), "samples", f's{p_num}.json')
     run(sample_file, test_case_num)
+
+
+def timeit(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        ret = func(*args, **kwargs)
+        end = time.time()
+        gap = (end - start) * 1000 * 1000
+        print(f'{func.__name__} 耗时: {gap:.2f} 微秒')
+        return ret
+    return wrapper
