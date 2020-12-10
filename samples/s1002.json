@@ -1,0 +1,10 @@
+[
+  {
+    "input": ["bella","label","roller"],
+    "expected": ["e","l","l"]
+  },
+  {
+    "input": ["cool","lock","cook"],
+    "expected": ["c","o"]
+  }
+]

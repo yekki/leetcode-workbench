@@ -4,9 +4,9 @@ import importlib
 import time
 from functools import wraps
 from common.problem import Problem
+from typing import List
 
-
-def msgbox(msg: str, color: str):
+def msgbox(msg: str, color: str) -> None:
     length = 60
     click.secho('*' * length, fg=color)
     n = ((length - len(msg)) - 1) // 2
@@ -58,3 +58,15 @@ def timeit(func):
         print(f'{func.__name__} 耗时: {gap:.2f} 微秒')
         return ret
     return wrapper
+
+def list_eq(l1: List, l2: List) -> bool:
+    if l1 == l2:
+        return True
+    else:
+        for a in l1:
+            if a not in l2:
+                return False
+        else:
+            return True
+
+
