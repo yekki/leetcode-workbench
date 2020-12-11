@@ -1,17 +1,19 @@
 from common import Problem
 from typing import List
 
+
 class Solution(Problem):
     def minDeletionSize(self, A: List[str]) -> int:
-        for i in range(len(A) - 1):
-            for j in range(len(A[0]) - 1):
-                A
+        ans = 0
+        for col in zip(*A):
+            if any(col[i] > col[i + 1] for i in range(len(col) - 1)):
+                ans += 1
+        return ans
 
     def _validate(self, input, expected) -> bool:
-        result = None
 
-        return result == expected
+        return expected == self.minDeletionSize(input)
 
 
 if __name__ == '__main__':
-    Solution.test(__file__)
+    Solution.test(__file__, 1)
