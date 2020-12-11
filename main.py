@@ -15,7 +15,6 @@ def count():
     p_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'problems')
     c = 0
     for f in os.listdir(p_path):
-        print(f)
         (name, ext) = os.path.splitext(f)
         if name.startswith('s') and name[1:].isdigit() and ext == '.py':
             c += 1
