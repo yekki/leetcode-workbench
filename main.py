@@ -5,6 +5,11 @@ import os
 from common import run, get_modules
 
 
+def file_filter(file):
+    (name, ext) = os.path.splitext(file)
+    return name.startswith('s') and name[1:].isdigit() and ext == '.py'
+
+
 @click.group()
 def cli():
     pass
@@ -13,17 +18,11 @@ def cli():
 @cli.command()
 def count():
     p_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'problems')
-    c = 0
-    for f in os.listdir(p_path):
-        (name, ext) = os.path.splitext(f)
-        if name.startswith('s') and name[1:].isdigit() and ext == '.py':
-            c += 1
-    print(f'已完成题目{c}个')
-    # 用到的知识
-    # os.path.getatime(file) 输出文件访问时间
-    # os.path.getctime(file) 输出文件的创建时间
-    # os.path.getmtime(file) 输出文件最近修改时间
-    # 要加上最后修改时间
+    file_list = list(filter(file_filter, os.listdir(p_path)))
+    file_list.sort(key=lambda fn: os.path.getmtime(os.path.join(p_path, fn)))
+    print(f'已完成题目:{len(file_list)}个')
+    print(f'最后保存文件：{file_list[-1]}')
+
 
 @cli.command()
 @click.option('--pc', '-p', default=-1, type=click.INT, help='题目编号')
