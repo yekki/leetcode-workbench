@@ -1,0 +1,9 @@
+[
+  {
+    "input": {
+      "p1": ["MinStack", "push", "push", "push", "getMin", "pop", "top", "getMin"],
+      "p2": [[], [-2], [0], [-3], [], [], [], []]
+    },
+    "expected": [null, null, null, null, -3, null, 0, -2]
+  }
+]

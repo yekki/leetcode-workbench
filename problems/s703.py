@@ -1,4 +1,4 @@
-from common import Problem
+from common import Problem, exec_template_methods
 from typing import List
 import heapq
 
@@ -26,17 +26,8 @@ class Solution(Problem):
             return self.pool[0]
 
     def _validate(self, input, expected) -> tuple:
-        l = len(input['p1'])
-        k = None
-        result = []
-        for i in range(len(input['p1'])):
-            c = input['p1'][i]
-
-            if c == 'KthLargest':
-                k = Solution.KthLargest(*input['p2'][i])
-                result.append(None)
-            elif c == 'add':
-                result.append(k.add(*input['p2'][i]))
+        inst = Solution.KthLargest(*input['p2'][0])
+        result = exec_template_methods(inst, input['p1'], input['p2'])
         return result == expected, result
 
 

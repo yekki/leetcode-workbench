@@ -6,6 +6,7 @@ from functools import wraps
 from common.problem import Problem
 from typing import List
 
+
 def msgbox(msg: str, color: str) -> None:
     length = 60
     click.secho('*' * length, fg=color)
@@ -44,7 +45,8 @@ def run(sample_file: str, test_case_num: int = -1):
 
 def test(py_filepath: str, test_case_num: int = -1):
     p_num = _get_num(py_filepath)
-    sample_file = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(py_filepath))), "samples", f's{p_num}.json')
+    sample_file = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(py_filepath))), "samples",
+                               f's{p_num}.json')
     run(sample_file, test_case_num)
 
 
@@ -57,7 +59,9 @@ def timeit(func):
         gap = (end - start) * 1000 * 1000
         print(f'{func.__name__} 耗时: {gap:.2f} 微秒')
         return ret
+
     return wrapper
+
 
 def list_eq(l1: List, l2: List) -> bool:
     if l1 == l2:
@@ -70,3 +74,10 @@ def list_eq(l1: List, l2: List) -> bool:
             return True
 
 
+def exec_template_methods(inst, function_list, param_list) -> List:
+    result = [None]
+    for i, f in enumerate(function_list[1:]):
+        func = getattr(inst, f)
+        result.append(func(*param_list[1:][i]))
+
+    return result
