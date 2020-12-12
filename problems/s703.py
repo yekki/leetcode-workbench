@@ -25,7 +25,7 @@ class Solution(Problem):
 
             return self.pool[0]
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         l = len(input['p1'])
         k = None
         result = []
@@ -37,7 +37,7 @@ class Solution(Problem):
                 result.append(None)
             elif c == 'add':
                 result.append(k.add(*input['p2'][i]))
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

@@ -36,10 +36,10 @@ class Solution(Problem):
 
         return result
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.convertToTitle_1(input)
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

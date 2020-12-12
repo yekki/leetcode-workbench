@@ -8,10 +8,10 @@ class Solution(Problem):
         ret = int(str(x)[::-1]) if x >0 else - int(str(-x)[::-1])
         return ret if pow(-2, 31) <= ret <= pow(2, 31) - 1 else 0
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.reverse(input)
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

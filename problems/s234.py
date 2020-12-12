@@ -13,11 +13,10 @@ class Solution(Problem):
 
         return vals == vals[::-1]
 
-
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.isPalindrome(ListNode(input))
 
-        return expected == result
+        return expected == result, result
 
 
 if __name__ == '__main__':

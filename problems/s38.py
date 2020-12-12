@@ -9,10 +9,10 @@ class Solution(Problem):
             s = re.sub(r'(.)\1*', lambda m: str(len(m.group(0))) + m.group(1), s)
         return s
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.countAndSay(input)
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

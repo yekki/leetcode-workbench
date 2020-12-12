@@ -1,7 +1,7 @@
 from common import Problem
 from structure import TreeNode
 
-
+#TODO
 class Solution(Problem):
     def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
         # if p is None and q is None:
@@ -15,7 +15,6 @@ class Solution(Problem):
         #     return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
         return False
 
-    #TODO bug
     def _validate(self, input, expected) -> bool:
         #result = self.isSameTree(TreeNode(input['p1']), TreeNode(input['p2']))
         return True

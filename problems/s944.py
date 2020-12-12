@@ -10,10 +10,10 @@ class Solution(Problem):
                 ans += 1
         return ans
 
-    def _validate(self, input, expected) -> bool:
-
-        return expected == self.minDeletionSize(input)
+    def _validate(self, input, expected) -> tuple:
+        result = self.minDeletionSize(input)
+        return expected == result, result
 
 
 if __name__ == '__main__':
-    Solution.test(__file__, 1)
+    Solution.test(__file__)

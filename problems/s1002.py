@@ -2,6 +2,7 @@ from common import Problem, list_eq
 from typing import List
 import collections
 
+
 class Solution(Problem):
     def commonChars(self, A: List[str]) -> List[str]:
         c = collections.Counter(A[0])
@@ -11,10 +12,10 @@ class Solution(Problem):
 
         return c.elements()
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.commonChars(input)
 
-        return list_eq(result, expected)
+        return list_eq(result, expected), result
 
 
 if __name__ == '__main__':

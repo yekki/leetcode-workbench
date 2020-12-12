@@ -18,10 +18,10 @@ class Solution(Problem):
             res = max(res, cur)
         return res
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.maxSubArray(input)
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

@@ -13,9 +13,9 @@ class Solution(Problem):
 
         return ret
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.subsets(input)
-        return sorted(result) == sorted(expected)
+        return sorted(result) == sorted(expected), result
 
 
 if __name__ == '__main__':

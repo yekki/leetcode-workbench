@@ -15,10 +15,10 @@ class Solution(Problem):
 
         return '1' + ret if carry else ret
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.addStrings(input['p1'], input['p2'])
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

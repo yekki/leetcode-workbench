@@ -22,13 +22,13 @@ class Solution(Problem):
 
         return dummy.next
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         l1 = input['p1']
         l2 = input['p2']
         e = ListNode(expected)
         result = self.addTwoNumbers(ListNode(l1), ListNode(l2))
 
-        return result == e
+        return result == e, result
 
 
 if __name__ == '__main__':

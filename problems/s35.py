@@ -13,10 +13,10 @@ class Solution(Problem):
             else:
                 return len(nums)
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.searchInsert(input["p1"], input["p2"])
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

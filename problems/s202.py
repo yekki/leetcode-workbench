@@ -14,10 +14,10 @@ class Solution(Problem):
             else:
                 res_table.add(n)
     
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.isHappy(input)
 
-        return expected == result
+        return expected == result, result
 
 
 if __name__ == "__main__":

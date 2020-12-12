@@ -26,10 +26,10 @@ class Solution(Problem):
 
         return res
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.subsetsWithDup(input)
 
-        return result.sort() == expected.sort()
+        return result.sort() == expected.sort(), result
 
 
 if __name__ == '__main__':

@@ -23,10 +23,10 @@ class Solution(Problem):
             res = res + x[0]
         return res
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.longestCommonPrefix_1(input)
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

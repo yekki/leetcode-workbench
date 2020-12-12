@@ -12,8 +12,9 @@ class Solution(Problem):
                 queue.popleft()
         return not queue
 
-    def _validate(self, input, expected) -> bool:
-        return expected == self.isSubsequence(input['p1'], input['p2'])
+    def _validate(self, input, expected) -> tuple:
+        result = self.isSubsequence(input['p1'], input['p2'])
+        return expected == result, result
 
 
 if __name__ == '__main__':

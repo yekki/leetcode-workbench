@@ -18,10 +18,10 @@ class Solution(Problem):
 
         return ss == ss[::-1]
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.isPalindrome(input)
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

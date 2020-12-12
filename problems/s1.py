@@ -8,14 +8,14 @@ class Solution(Problem):
             gap = target - nums[i]
             if gap in nums[i + 1:]:
                 return [i, nums[i + 1:].index(gap) + i + 1]
-        return Noneclear
+        return None
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         nums = input['p1']
         target = input['p2']
         result = self.twoSum(nums, target)
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

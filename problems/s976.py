@@ -11,10 +11,10 @@ class Solution(Problem):
         else:
             return 0
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.largestPerimeter(input)
-        return expected == result
+        return expected == result, result
 
 
 if __name__ == '__main__':
-   Solution.test(__file__)
+    Solution.test(__file__)

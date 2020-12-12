@@ -23,12 +23,12 @@ class Solution(Problem):
 
         return head.next
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         l1 = ListNode(input['p1'])
         l2 = ListNode(input['p2'])
         result = self.mergeTwoLists(l1, l2)
 
-        return ListNode(expected) == result
+        return ListNode(expected) == result, result
 
 
 if __name__ == '__main__':

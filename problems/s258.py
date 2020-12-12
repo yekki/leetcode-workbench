@@ -9,13 +9,11 @@ class Solution(Problem):
             return 9
         else:
             return num % 9
-                                                      
 
-
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.addDigits(input)
 
-        return expected == result
+        return expected == result, result
 
 
 if __name__ == "__main__":

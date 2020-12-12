@@ -14,9 +14,9 @@ class Solution(Problem):
                 dict[s[i]]=t[i] #将两个值录入字典中(记录下s[i]所变换后的字母)
         return True
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.isIsomorphic(input['p1'], input['p2'])
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':

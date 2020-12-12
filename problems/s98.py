@@ -1,7 +1,7 @@
 from common import Problem
 from structure import Tree, TreeNode
 
-
+#TODO
 class Solution(Problem):
     def isValidBST(self, root: TreeNode) -> bool:
         def inOrder(node):
@@ -13,10 +13,10 @@ class Solution(Problem):
 
         return len(inorder) == len(set(inorder)) and inorder == sorted(inorder)
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         tree = Tree(input)
         result = self.isValidBST(tree.root)
-        return expected == result
+        return expected == result, result
 
 
 if __name__ == '__main__':

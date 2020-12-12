@@ -28,10 +28,10 @@ class Solution(Problem):
 
         return nums
 
-    def _validate(self, input, expected) -> bool:
+    def _validate(self, input, expected) -> tuple:
         result = self.merge(input)
 
-        return result == expected
+        return result == expected, result
 
 
 if __name__ == '__main__':
