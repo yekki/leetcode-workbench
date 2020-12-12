@@ -1,4 +1,4 @@
-from common import Problem
+from common import Problem, list_eq
 from typing import List
 
 
@@ -31,7 +31,7 @@ class Solution(Problem):
     def _validate(self, input, expected) -> tuple:
         result = self.merge(input)
 
-        return result == expected, result
+        return list_eq(result,expected), result
 
 
 if __name__ == '__main__':
