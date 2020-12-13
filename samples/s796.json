@@ -1,0 +1,16 @@
+[
+  {
+    "input": {
+      "p1": "abcde",
+      "p2": "cdeab"
+    },
+    "expected": true
+  },
+  {
+    "input": {
+      "p1": "abcde",
+      "p2": "abced"
+    },
+    "expected": false
+  }
+]
