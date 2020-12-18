@@ -1,0 +1,10 @@
+[
+  {
+    "input": "leEeetcode",
+    "expected": "leetcode"
+  },
+  {
+    "input": "abBAcC",
+    "expected": ""
+  }
+]
