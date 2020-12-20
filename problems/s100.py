@@ -18,7 +18,7 @@ class Solution(Problem):
     def _validate(self, input, expected) -> bool:
         #result = self.isSameTree(TreeNode(input['p1']), TreeNode(input['p2']))
         return True
-        #return result == expected
+        #return result == result
 
 
 if __name__ == '__main__':
