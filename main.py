@@ -1,27 +1,29 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding=utf-8
 import click
 import os
-from common import run, get_modules
+from common import run, get_modules, create_p
 
-
-def file_filter(file):
-    (name, ext) = os.path.splitext(file)
-    return name.startswith('s') and name[1:].isdigit() and ext == '.py'
-
+APP_NAME='Leetcode Workbench'
+APP_VERSION = 'v1.0b'
+APP_AUTHOR = 'Gary Niu'
 
 @click.group()
 def cli():
     pass
 
+@cli.command()
+def version():
+    print(f'{APP_NAME} {APP_VERSION}, 作者：{APP_AUTHOR}')
 
 @cli.command()
 def count():
     p_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'problems')
-    file_list = list(filter(file_filter, os.listdir(p_path)))
-    file_list.sort(key=lambda fn: os.path.getmtime(os.path.join(p_path, fn)))
-    print(f'已完成题目:{len(file_list)}个')
-    print(f'最后保存文件：{file_list[-1]}')
+    p_list = os.listdir(p_path)
+    p_list.sort()
+
+    print(f'已完成题目:{len(p_list)}个')
+    print(f'最后保存文件：{p_list[-1]}')
 
 
 @cli.command()
@@ -36,6 +38,11 @@ def test(pc, tc):
             run(m, tc)
     else:
         run(pc, tc)
+
+@cli.command()
+@click.option('--number', '-n', type=click.INT, help='题目编号')
+def np(number):
+    create_p(number)
 
 
 if __name__ == '__main__':

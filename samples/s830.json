@@ -1,8 +1,0 @@
-[
-  {
-    "input": "abbxxxxzzy",
-    "expected": [
-      [3, 6]
-    ]
-  }
-]
