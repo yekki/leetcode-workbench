@@ -1,0 +1,14 @@
+[
+  {
+    "input": ["cba", "daf", "ghi"],
+    "expected": 1
+  },
+  {
+    "input": ["a", "b"],
+    "expected": 0
+  },
+  {
+    "input": ["zyx", "wvu", "tsr"],
+    "expected": 3
+  }
+]

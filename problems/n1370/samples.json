@@ -1,0 +1,10 @@
+[
+  {
+    "input": "aaaabbbbcccc",
+    "expected": "abccbaabccba"
+  },
+  {
+    "input": "rat",
+    "expected": "art"
+  }
+]

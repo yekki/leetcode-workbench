@@ -1,0 +1,16 @@
+[
+  {
+    "input": {
+      "p1": "hello",
+      "p2": "ll"
+    },
+    "expected": 2
+  },
+  {
+    "input": {
+      "p1": "aaaaa",
+      "p2": "bba"
+    },
+    "expected": -1
+  }
+]

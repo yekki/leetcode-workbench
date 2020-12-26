@@ -1,0 +1,37 @@
+[
+  {
+    "input": {
+      "p1": "aa",
+      "p2": "a"
+    },
+    "expected": false
+  },
+  {
+    "input": {
+      "p1": "aa",
+      "p2": "a*"
+    },
+    "expected": true
+  },
+  {
+    "input": {
+      "p1": "ab",
+      "p2": ".*"
+    },
+    "expected": true
+  },
+  {
+    "input": {
+      "p1": "aab",
+      "p2": "c*a*b"
+    },
+    "expected": true
+  },
+  {
+    "input": {
+      "p1": "mississippi",
+      "p2": "mis*is*p*."
+    },
+    "expected": false
+  }
+]

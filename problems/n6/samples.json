@@ -1,0 +1,16 @@
+[
+  {
+    "input": {
+      "p1": "LEETCODEISHIRING",
+      "p2": 3
+    },
+    "expected": "LCIRETOESIIGEDHN"
+  },
+  {
+    "input": {
+      "p1": "LEETCODEISHIRING",
+      "p2": 4
+    },
+    "expected": "LDREOEIIECIHNTSG"
+  }
+]

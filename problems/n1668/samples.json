@@ -1,0 +1,23 @@
+[
+  {
+    "input": {
+      "p1": "ababc",
+      "p2": "ab"
+    },
+    "expected": 2
+  },
+  {
+    "input": {
+      "p1": "ababc",
+      "p2": "ba"
+    },
+    "expected": 1
+  },
+  {
+    "input": {
+      "p1": "ababc",
+      "p2": "ac"
+    },
+    "expected": 0
+  }
+]
