@@ -5,7 +5,16 @@ import time
 from functools import wraps
 from common.problem import Problem
 from typing import List
+from enum import Enum
 
+
+class PathType(Enum):
+    ROOT = 1
+    PROBLEMS = 2
+    PROBLEM = 3
+    SOLUTION = 4
+    SAMPLES = 5
+    README = 6
 
 SOLUTION_T = '''from common import Problem
 
@@ -81,13 +90,33 @@ def _get_num(filepath: str) -> int:
         raise ValueError(filepath)
 
 
-def run(sample_file: str, test_case_num: int = -1):
-    p_num = _get_num(sample_file)
+def run(p_num: str, test_case_num: int = -1):
+    if not isinstance(p_num, int) and not p_num.isnumeric():
+        p_num = _get_num(p_num)
+
     msgbox(f'第{p_num}道题', color='blue')
     lib = importlib.import_module(f'problems.n{p_num}.solution')
-    solution = lib.Solution(sample_file)
+    solution = lib.Solution(p_num)
     solution.validate(test_case_num)
 
+def path(ptype: PathType, p_num: int = -1):
+    base = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+    if ptype == PathType.ROOT:
+        return base
+    if ptype == PathType.PROBLEMS:
+        return os.path.join(base, 'problems')
+    if p_num != -1:
+        if ptype == PathType.PROBLEM:
+            return os.path.join(base, 'problems', f'n{p_num}')
+        if ptype == PathType.SOLUTION:
+            return os.path.join(base, 'problems', f'n{p_num}', 'solution.py')
+        if ptype == PathType.SAMPLES:
+            return os.path.join(base, 'problems', f'n{p_num}', 'samples.json')
+        if ptype == PathType.README:
+            return os.path.join(base, 'problems', f'n{p_num}', 'README.md')
+
+    raise ValueError('不支持路径类型或者丢失题目编号')
 
 def test(py_filepath: str, test_case_num: int = -1):
     p_num = _get_num(py_filepath)
@@ -127,3 +156,7 @@ def exec_template_methods(inst, function_list, param_list) -> List:
         result.append(func(*param_list[1:][i]))
 
     return result
+
+
+if __name__ == '__main__':
+    print(path(PathType.PROBLEM, 1))

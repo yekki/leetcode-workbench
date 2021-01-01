@@ -6,9 +6,6 @@ import common
 
 
 class Problem(metaclass=abc.ABCMeta):
-    def __init__(self):
-        pass
-
     def __init__(self, json_path):
         with open(json_path, 'r') as fp:
             self.samples = json.load(fp)
