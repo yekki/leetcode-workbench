@@ -37,12 +37,6 @@ class Solution(Problem):
         return s[left: right + 1]
 
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.longestPalindrome_1(input)
-
-        return result == expected, result
-
-
 if __name__ == '__main__':
     Solution.test(__file__)
 

@@ -1,4 +1,4 @@
-from common import Problem, test
+from common import Problem
 
 
 class Solution(Problem):
@@ -9,11 +9,6 @@ class Solution(Problem):
             num = num * 26 + ord(c) - ord("A") + 1
 
         return num
-
-    def _validate(self, input, expected) -> tuple:
-        result = self.titleToNumber(input)
-
-        return result == expected, result
 
 
 if __name__ == '__main__':

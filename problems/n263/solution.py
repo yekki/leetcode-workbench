@@ -19,10 +19,6 @@ class Solution(Problem):
             if flag == num:
                 return False
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.isUgly(input)
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

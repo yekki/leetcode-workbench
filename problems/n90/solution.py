@@ -26,10 +26,9 @@ class Solution(Problem):
 
         return res
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.subsetsWithDup(input)
-
-        return result.sort() == expected.sort(), result
+    @staticmethod
+    def eq(result, expected):
+        return result.sort() == expected.sort()
 
 
 if __name__ == '__main__':

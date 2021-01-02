@@ -2,6 +2,7 @@ from common import Problem
 from typing import List
 import collections
 
+
 class Solution(Problem):
     def countCharacters(self, words: List[str], chars: str) -> int:
         ret = 0
@@ -16,11 +17,6 @@ class Solution(Problem):
             else:
                 ret += len(words[i])
         return ret
-
-    def _validate(self, input, expected) -> tuple:
-        result = self.countCharacters_1(input['p1'], input['p2'])
-
-        return expected == result, result
 
 
 if __name__ == '__main__':

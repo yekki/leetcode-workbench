@@ -1,6 +1,7 @@
 from common import Problem
 from typing import List
 
+
 class Solution(Problem):
     def canMakeArithmeticProgression(self, arr: List[int]) -> bool:
         arr.sort()
@@ -9,11 +10,6 @@ class Solution(Problem):
             return True
         else:
             return False
-
-    def _validate(self, input, expected) -> tuple:
-        result = self.canMakeArithmeticProgression(input)
-
-        return result == expected, result
 
 
 if __name__ == '__main__':

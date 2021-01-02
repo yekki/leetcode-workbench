@@ -17,11 +17,6 @@ class Solution(Problem):
 
         return ret
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.relativeSortArray(input['p1'], input['p2'])
-
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

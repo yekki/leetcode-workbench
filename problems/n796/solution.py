@@ -15,11 +15,6 @@ class Solution(Problem):
         else:
             return False
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.rotateString(input['p1'], input['p2'])
-
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__, 1)

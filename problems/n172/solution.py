@@ -15,11 +15,6 @@ class Solution(Problem):
 
         return n1 - n2
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.trailingZeroes(input)
-
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

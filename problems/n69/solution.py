@@ -9,11 +9,6 @@ class Solution(Problem):
         ans = int(math.exp(0.5 * math.log(x)))
         return ans + 1 if (ans + 1) ** 2 <= x else ans
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.mySqrt(input)
-
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

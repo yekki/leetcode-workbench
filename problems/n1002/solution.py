@@ -12,6 +12,11 @@ class Solution(Problem):
 
         return c.elements()
 
+    @staticmethod
+    def eq(result, expected):
+        list_eq(result, expected)
+
+    #TODO error
     def _validate(self, input, expected) -> tuple:
         result = self.commonChars(input)
 

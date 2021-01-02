@@ -14,11 +14,6 @@ class Solution(Problem):
                 result, t[k] = result + (k if t[k] > 0 else ""), t[k] - 1
         return result
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.sortString(input)
-
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

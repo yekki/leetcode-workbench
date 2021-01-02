@@ -16,11 +16,6 @@ class Solution(Problem):
         else:
             return (nums1[c//2] + nums1[(c - 1)//2]) / 2
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.findMedianSortedArrays_1(input['p1'], input['p2'])
-
-        return result == expected, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

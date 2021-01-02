@@ -31,11 +31,6 @@ class Solution(Problem):
                 return n
         return 0
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.myAtoi(input)
-
-        return result == expected, result
-
 
 if __name__ == '__main__':
-    Solution.test(__file__, 4)
+    Solution.test(__file__)

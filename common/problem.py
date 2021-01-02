@@ -37,9 +37,16 @@ class Problem(metaclass=abc.ABCMeta):
         with open(json_path, 'r') as fp:
             self.samples = json.load(fp)
 
-    @abc.abstractmethod
     def _validate(self, input, expected) -> tuple:
-        pass
+        methods = [m for m in (set(dir(self)) - set(dir(Problem))) if callable(getattr(self, m))]
+        method = min(methods)
+
+        if isinstance(input, dict):
+            result = eval(f'self.{method}')(*input.values())
+        else:
+            result = eval(f'self.{method}')(input)
+
+        return Problem.eq(result, expected), result
 
     def _run_test(self, i):
         data = self.samples[i - 1]
@@ -76,7 +83,6 @@ class Problem(metaclass=abc.ABCMeta):
 
         sample_file = os.path.join(Problem.PATH, f"n{p_num}", 'samples.json')
 
-
         # message box
         msg = f'第{p_num}道题'
         click.secho('*' * 60, fg='blue')
@@ -109,3 +115,7 @@ class Problem(metaclass=abc.ABCMeta):
                 file.write('## 解题思路')
 
             print(f'成功创建题目{n}')
+
+    @staticmethod
+    def eq(result, expected):
+        return result == expected

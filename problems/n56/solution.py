@@ -28,10 +28,9 @@ class Solution(Problem):
 
         return nums
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.merge(input)
-
-        return list_eq(result,expected), result
+    @staticmethod
+    def eq(result, expected):
+        return list_eq(result,expected)
 
 
 if __name__ == '__main__':

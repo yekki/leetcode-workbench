@@ -10,11 +10,6 @@ class Solution(Problem):
 
         return ans
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.rotatedDigits(input)
-
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

@@ -11,11 +11,6 @@ class Solution(Problem):
 
         return ret
 
-    def _validate(self, input, expected) -> bool:
-        result = self.xorOperation(input['p1'], input['p2'])
-
-        return result == expected, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

@@ -13,11 +13,6 @@ class Solution(Problem):
         else:
             return n[2]
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.thirdMax(input)
-
-        return result == expected, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

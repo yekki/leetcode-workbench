@@ -12,11 +12,6 @@ class Solution(Problem):
 
         return first_match and self.isMatch(s[1:], p[1:])
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.isMatch(input['p1'], input['p2'])
-
-        return result == expected, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

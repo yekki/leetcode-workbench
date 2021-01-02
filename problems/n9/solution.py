@@ -11,11 +11,6 @@ class Solution(Problem):
 
         return x == int(str(x)[::-1])
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.isPalindrome(input)
-
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

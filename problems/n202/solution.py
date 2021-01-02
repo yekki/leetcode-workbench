@@ -13,11 +13,6 @@ class Solution(Problem):
                 return False
             else:
                 res_table.add(n)
-    
-    def _validate(self, input, expected) -> tuple:
-        result = self.isHappy(input)
-
-        return expected == result, result
 
 
 if __name__ == "__main__":

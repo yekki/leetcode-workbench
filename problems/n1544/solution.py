@@ -11,11 +11,6 @@ class Solution(Problem):
                 ret.append(ch)
         return "".join(ret)
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.makeGood(input)
-
-        return result == expected, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

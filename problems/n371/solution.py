@@ -15,10 +15,6 @@ class Solution(Problem):
 
         return a if a < 0x80000000 else ~(a ^ 0xFFFFFFFF)
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.getSum_1(input['p1'], input['p2'])
-        return expected == result, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

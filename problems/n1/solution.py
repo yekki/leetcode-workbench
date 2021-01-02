@@ -10,13 +10,5 @@ class Solution(Problem):
                 return [i, nums[i + 1:].index(gap) + i + 1]
         return None
 
-    def _validate(self, input, expected) -> tuple:
-        nums = input['p1']
-        target = input['p2']
-        result = self.twoSum(nums, target)
-
-        return result == expected, result
-
-
 if __name__ == '__main__':
     Solution.test(__file__)

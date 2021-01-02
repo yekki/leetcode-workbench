@@ -24,10 +24,6 @@ class Solution(Problem):
 
         return nums
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.findRelativeRanks(input)
-
-        return expected == result, result
 
 
 if __name__ == '__main__':

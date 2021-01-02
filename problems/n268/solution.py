@@ -10,10 +10,6 @@ class Solution(Problem):
             if n not in nset:
                 return n
 
-    def _validate(self, input, expected) -> tuple:
-        result = self.missingNumber(input)
-        return result == expected, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)
