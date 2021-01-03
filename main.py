@@ -18,8 +18,9 @@ def cli():
 
 @cli.command()
 def version():
+    print('*' * 40)
     print(f'{APP_NAME} {APP_VERSION}, 作者：{APP_AUTHOR}')
-
+    print('*' * 40)
 
 @cli.command()
 def count():
