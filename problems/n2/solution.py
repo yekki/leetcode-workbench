@@ -22,13 +22,11 @@ class Solution(Problem):
 
         return dummy.next
 
-    def _validate(self, input, expected) -> tuple:
-        l1 = input['p1']
-        l2 = input['p2']
-        e = ListNode(expected)
-        result = self.addTwoNumbers(ListNode(l1), ListNode(l2))
-
-        return result == e, result
+    def prepare(self, data):
+        data['input']['p1'] = ListNode(data['input']['p1'])
+        data['input']['p2'] = ListNode(data['input']['p2'])
+        data['expected'] = ListNode(data['expected'])
+        return super().prepare(data)
 
 
 if __name__ == '__main__':

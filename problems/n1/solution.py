@@ -23,8 +23,16 @@ class Solution(Problem):
         else:
             return []
 
-    def eq(self, result, expected):
-        return list_eq(result, expected)
+    def twoSum_2(self, nums: List[int], target: int) -> List[int]:
+        for i in range(len(nums) - 1):
+            for j in range(i + 1, len(nums)):
+                if nums[i] + nums[j] == target:
+                    return [i, j]
+        else:
+            return []
+
+    def prepare(self, data):
+        return list_eq
 
 
 if __name__ == '__main__':
