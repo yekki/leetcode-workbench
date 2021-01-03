@@ -7,7 +7,7 @@ from common import Problem, PROBLEMS_PATH
 
 
 APP_NAME='Leetcode Workbench'
-APP_VERSION = 'v1.2b'
+APP_VERSION = 'v1.3b'
 APP_AUTHOR = 'Gary Niu'
 
 
