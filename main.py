@@ -46,5 +46,18 @@ def test(problem, case):
     lib.Solution.test(py_file, case)
 
 
+@cli.command()
+@click.option('--comment', '-c', type=click.STRING, default='fix update',  help='题目编号')
+def commit(comment):
+    os.system(f'git commit -am "{comment}"' )
+
+
+@cli.command()
+def sync():
+    os.system('git fetch --all')
+    os.system('git reset --hard origin/main')
+    os.system('git pull')
+
+
 if __name__ == '__main__':
     cli()
