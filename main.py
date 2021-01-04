@@ -50,6 +50,7 @@ def test(problem, case):
 @click.option('--comment', '-c', type=click.STRING, default='fix update',  help='题目编号')
 def commit(comment):
     os.system(f'git commit -am "{comment}"' )
+    os.system('git push')
 
 
 @cli.command()
