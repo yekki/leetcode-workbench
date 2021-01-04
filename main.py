@@ -32,9 +32,9 @@ def count():
 
 
 @cli.command()
-@click.option('--number', '-n', type=click.INT, help='题目编号')
-def np(number):
-    Problem.create(number)
+@click.option('--problem', '-p', type=click.INT, help='题目编号')
+def np(problem):
+    Problem.create(problem)
 
 
 @cli.command()

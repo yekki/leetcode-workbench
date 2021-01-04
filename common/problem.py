@@ -7,9 +7,6 @@ import importlib
 from prettytable import PrettyTable
 
 
-CONSOLE_FG_INFO_COLOR = 'white'
-CONSOLE_FG_ALERT_COLOR = 'yellow'
-CONSOLE_FG_ERROR_COLOR = 'red'
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
 
 TEMPLATE_SOLUTION = '''from common import Problem
@@ -106,7 +103,7 @@ class Problem(metaclass=abc.ABCMeta):
 
     @staticmethod
     def create(n: int):
-        p = os.path.join(Problem.PATH, f'n{n}')
+        p = os.path.join(PROBLEMS_PATH, f'n{n}')
 
         if n < 1:
             raise ValueError('请输入正确的题目编号')

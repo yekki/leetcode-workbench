@@ -10,7 +10,7 @@ class Solution(Problem):
             if gap in nums[j:]:
                 return [i, nums[j:].index(gap) + i + 1]
         else:
-            return []
+            return None
 
     def twoSum_1(self, nums: List[int], target: int) -> List[int]:
         hashmap = dict()
@@ -21,7 +21,7 @@ class Solution(Problem):
                 return [i, hashmap.get(gap)]
             hashmap[num] = i
         else:
-            return []
+            return None
 
     def twoSum_2(self, nums: List[int], target: int) -> List[int]:
         for i in range(len(nums) - 1):
@@ -29,7 +29,21 @@ class Solution(Problem):
                 if nums[i] + nums[j] == target:
                     return [i, j]
         else:
-            return []
+            return None
+
+    def twoSum_3(self, nums: List[int], target: int) -> List[int]:
+        i, j = 0, len(nums) -1
+
+        while i < j:
+            sum = nums[i] + nums[j]
+            if sum > target:
+                j -= 1
+            elif sum < target:
+                i += 1
+            else:
+                return [i, j]
+        else:
+            return None
 
     def prepare(self, data):
         return list_eq
