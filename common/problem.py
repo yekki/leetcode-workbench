@@ -5,7 +5,7 @@ import click
 import os
 import importlib
 from prettytable import PrettyTable
-
+from copy import deepcopy
 
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
 
@@ -41,10 +41,12 @@ class Problem(metaclass=abc.ABCMeta):
 
         eq_func = self.prepare(data)
 
-        if isinstance(data['input'], dict):
-            result = eval(f'self.{method}')(*data['input'].values())
+        params = deepcopy(data['input'])
+
+        if isinstance(params, dict):
+            result = eval(f'self.{method}')(*params.values())
         else:
-            result = eval(f'self.{method}')(data['input'])
+            result = eval(f'self.{method}')(params)
 
         is_eq = eq_func(result, data['expected'])
 
@@ -60,12 +62,15 @@ class Problem(metaclass=abc.ABCMeta):
 
         tb.add_row([f'用例-{test_num}', ret, f'{gap:.2f}', echo])
 
-    def validate(self, test_num: int):
-        methods = [m for m in (set(dir(self)) - set(dir(Problem))) if callable(getattr(self, m))]
-        methods.sort()
+    def validate(self, test_num: int, method):
+        if method is not None and method != '':
+            methods = [method]
+        else:
+            methods = [m for m in (set(dir(self)) - set(dir(Problem))) if callable(getattr(self, m))]
+            methods.sort()
+
         for method in methods:
             tb = PrettyTable()
-
             tb.field_names = [click.style('测试', fg='blue'), click.style('结果', fg='blue'), click.style('用时(单位：μs)', fg='blue'), click.style('原因', fg='blue')]
             if test_num != -1:
                 self._run_test(test_num, method, tb)
@@ -85,7 +90,7 @@ class Problem(metaclass=abc.ABCMeta):
             return func
 
     @staticmethod
-    def test(filename, test_num=-1):
+    def test(filename, test_num=-1, method=''):
 
         p_num = os.path.dirname(filename).split('/')[-1][1:]
 
@@ -99,7 +104,7 @@ class Problem(metaclass=abc.ABCMeta):
         lib = importlib.import_module(f'problems.n{p_num}.solution')
         solution = lib.Solution(sample_file)
 
-        solution.validate(test_num)
+        solution.validate(test_num, method)
 
     @staticmethod
     def create(n: int):

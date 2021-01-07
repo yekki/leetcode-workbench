@@ -40,10 +40,11 @@ def np(problem):
 @cli.command()
 @click.option('--problem', '-p', type=click.INT, help='题目编号')
 @click.option('--case', '-c', type=click.INT, default=-1, help='题目编号')
-def test(problem, case):
+@click.option('--method', '-m', type=click.STRING, default='', help='题目编号')
+def test(problem, case, method):
     lib = importlib.import_module(f'problems.n{problem}.solution')
     py_file = os.path.join(PROBLEMS_PATH, f"n{problem}", 'solution.py')
-    lib.Solution.test(py_file, case)
+    lib.Solution.test(py_file, case, method)
 
 
 @cli.command()

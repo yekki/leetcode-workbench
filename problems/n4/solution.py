@@ -9,12 +9,15 @@ class Solution(Problem):
 
     def findMedianSortedArrays_1(self, nums1: List[int], nums2: List[int]) -> float:
         nums1.extend(nums2)
-        c = len(nums1)
         nums1.sort()
-        if c % 2 != 0:
-            return nums1[c//2]
+        quotient, left = divmod(len(nums1), 2)
+
+        if left == 0:
+            median = (nums1[quotient - 1] + nums1[quotient]) / 2.0
         else:
-            return (nums1[c//2] + nums1[(c - 1)//2]) / 2
+            median = float(nums1[quotient])
+
+        return median
 
     def findMedianSortedArrays_2(self, nums1: List[int], nums2: List[int]) -> float:
         nums3 = [0] * (len(nums1) + len(nums2))
@@ -29,18 +32,20 @@ class Solution(Problem):
                 r += 1
             i += 1
 
-        if i == len(nums1):
+        if l == len(nums1):
             nums3[i:] = nums2[r:]
         else:
-            nums3[i:] = nums2[l:]
+            nums3[i:] = nums1[l:]
 
-        c = len(nums3)
+        quotient, left = divmod(len(nums3), 2)
 
-        if c % 2 != 0:
-            return float(nums1[c//2])
+        if left == 0:
+            median = (nums3[quotient - 1] + nums3[quotient]) / 2.0
         else:
-            return (nums1[c//2] + nums1[(c - 1)//2]) / 2
+            median = float(nums3[quotient])
+
+        return median
 
 
 if __name__ == '__main__':
-    Solution.test(__file__)
+    Solution.test(__file__, test_num=2)
