@@ -40,8 +40,11 @@ class Problem(metaclass=abc.ABCMeta):
         with open(json_path, 'r') as fp:
             self.samples = json.load(fp)
 
-    def prepare(self, *args, **kwargs):
+    def prepare_test(self):
         pass
+
+    def prepare_case(self, case_no):
+        return self.get_case(case_no)
 
     def get_case(self, case_no):
         if case_no < 1:
@@ -54,9 +57,14 @@ class Problem(metaclass=abc.ABCMeta):
         return {'params': params, 'expected': case['expected']}
 
     def run_test_case(self, case_no, method):
-        case = self.get_case(case_no)
+        case = self.prepare_case(case_no)
         start = time.perf_counter_ns()
-        result = eval(f'self.{method}')(*case['params'])
+
+        if isinstance(case['params'], str):
+            result = eval(f'self.{method}')(case['params'])
+        else:
+            result = eval(f'self.{method}')(*case['params'])
+
         is_eq = self.eq(result, case['expected'])
         exec_time = (time.perf_counter_ns() - start) / 1000
 
@@ -76,7 +84,7 @@ class Problem(metaclass=abc.ABCMeta):
         return methods
 
     def run_test(self, case_no, method):
-        self.prepare()
+        self.prepare_test()
         methods = self.get_methods(method)
         for m in methods:
             if m in ['eq']: continue

@@ -22,11 +22,14 @@ class Solution(Problem):
 
         return dummy.next
 
-    def prepare(self, data):
-        data['input']['p1'] = ListNode(data['input']['p1'])
-        data['input']['p2'] = ListNode(data['input']['p2'])
+    def prepare_case(self, case_no):
+        data = super().prepare_case(case_no)
+        params = list(data['params'])
+        params[0] = ListNode(params[0])
+        params[1] = ListNode(params[1])
+        data['params'] = params
         data['expected'] = ListNode(data['expected'])
-        return super().prepare(data)
+        return data
 
 
 if __name__ == '__main__':

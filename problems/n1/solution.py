@@ -45,7 +45,7 @@ class Solution(Problem):
         else:
             return None
 
-    def prepare(self):
+    def prepare_test(self):
         self.eq = list_eq
 
 
