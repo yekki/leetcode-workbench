@@ -45,8 +45,8 @@ class Solution(Problem):
         else:
             return None
 
-    def prepare(self, data):
-        return list_eq
+    def prepare(self):
+        self.eq = list_eq
 
 
 if __name__ == '__main__':

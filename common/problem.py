@@ -29,17 +29,19 @@ TEMPLATE_SAMPLES = '''[
 ]
 '''
 
-def eq(a, b):
+
+def _eq(a, b):
     return a == b
 
+
 class Problem(metaclass=abc.ABCMeta):
-    def __init__(self, json_path, eq_func=eq):
-        self.eq = eq
+    def __init__(self, json_path):
+        self.eq = _eq
         with open(json_path, 'r') as fp:
             self.samples = json.load(fp)
 
-    def get_case_count(self):
-        return len(self.samples)
+    def prepare(self, *args, **kwargs):
+        pass
 
     def get_case(self, case_no):
         if case_no < 1:
@@ -59,7 +61,7 @@ class Problem(metaclass=abc.ABCMeta):
         exec_time = (time.perf_counter_ns() - start) / 1000
 
         ret = style('通过', fg='green') if is_eq else style('不通过', fg='red')
-        actual = '' if is_eq else style(f"预期：{case[1]} 实际：{result}", fg='red')
+        actual = '' if is_eq else style(f"预期：{case['expected']} 实际：{result}", fg='red')
 
         return [f'用例-{case_no}', ret, f'{exec_time:.2f}', actual]
 
@@ -74,22 +76,23 @@ class Problem(metaclass=abc.ABCMeta):
         return methods
 
     def run_test(self, case_no, method):
+        self.prepare()
         methods = self.get_methods(method)
-
         for m in methods:
+            if m in ['eq']: continue
             tb = PrettyTable()
-            tb.field_names = [click.style('测试', fg='blue'), click.style('结果', fg='blue'),
-                              click.style('用时(单位：μs)', fg='blue'), click.style('原因', fg='blue')]
+            tb.field_names = [style('测试', fg='blue'), style('结果', fg='blue'),
+                              style('用时(单位：μs)', fg='blue'), style('原因', fg='blue')]
             if case_no != -1:
                 tb.add_row(self.run_test_case(case_no, m))
             else:
-                for i in range(1, self.get_case_count() + 1):
+                for i in range(1, len(self.samples) + 1):
                     tb.add_row(self.run_test_case(i, m))
             print(tb.get_string(title=method))
             print()
 
     @staticmethod
-    def test(filename, case_no=-1, method='', eq_func=eq):
+    def test(filename, case_no=-1, method=''):
 
         p_num = os.path.dirname(filename).split('/')[-1][1:]
 
@@ -101,9 +104,8 @@ class Problem(metaclass=abc.ABCMeta):
         sample_file = os.path.join(PROBLEMS_PATH, f"n{p_num}", 'samples.json')
 
         lib = importlib.import_module(f'problems.n{p_num}.solution')
-        solution = lib.Solution(sample_file, eq_func)
-
-        solution.validate(case_no, method)
+        solution = lib.Solution(sample_file)
+        solution.run_test(case_no, method)
 
     @staticmethod
     def create(n: int):
