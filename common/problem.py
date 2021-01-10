@@ -6,6 +6,7 @@ import importlib
 from prettytable import PrettyTable
 from copy import deepcopy
 from click import style
+from collections import namedtuple
 
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
 
@@ -34,15 +35,21 @@ def _eq(a, b):
     return a == b
 
 
+TestResult = namedtuple('TestResult', ['method', 'case_no', 'passed', 'time', 'reason'])
+
+
 class Problem(metaclass=abc.ABCMeta):
     def __init__(self, json_path):
         self.eq = _eq
+        self.result = dict()
         with open(json_path, 'r') as fp:
             self.samples = json.load(fp)
 
+    # run before test begging, one test including many cases
     def prepare_test(self):
         pass
 
+    # run before test case begging
     def prepare_case(self, case_no):
         return self.get_case(case_no)
 
@@ -68,10 +75,27 @@ class Problem(metaclass=abc.ABCMeta):
         is_eq = self.eq(result, case['expected'])
         exec_time = (time.perf_counter_ns() - start) / 1000
 
-        ret = style('通过', fg='green') if is_eq else style('不通过', fg='red')
-        actual = '' if is_eq else style(f"预期：{case['expected']} 实际：{result}", fg='red')
+        reason = '' if is_eq else f"实际：{result} 预期：{case['expected']}"
 
-        return [f'用例-{case_no}', ret, f'{exec_time:.2f}', actual]
+        return TestResult(case_no=case_no, passed=is_eq, time=exec_time, reason=reason, method=method)
+
+    def render(self):
+        case_count = -1
+        for method, rows in self.result.items():
+            tb = PrettyTable()
+            tb.title = method
+            tb.field_names = [style('测试', fg='blue'), style('结果', fg='blue'),
+                      style('用时', fg='blue'), style('原因', fg='blue')]
+
+            if case_count == -1:
+                case_count = len(rows)
+
+            for r in rows:
+                passed = style('通过', fg='green') if r.passed else style('不通过', fg='red')
+                time = f'{r.time:.2f}μs'
+                tb.add_row([style(f'用例-{r.case_no}'), passed, time, r.reason])
+            tb.align['用时(单位：μs)'] = 'r'
+            print(tb.get_string())
 
     def get_methods(self, method):
 
@@ -86,18 +110,18 @@ class Problem(metaclass=abc.ABCMeta):
     def run_test(self, case_no, method):
         self.prepare_test()
         methods = self.get_methods(method)
+
         for m in methods:
             if m in ['eq']: continue
-            tb = PrettyTable()
-            tb.field_names = [style('测试', fg='blue'), style('结果', fg='blue'),
-                              style('用时(单位：μs)', fg='blue'), style('原因', fg='blue')]
+            rows = []
             if case_no != -1:
-                tb.add_row(self.run_test_case(case_no, m))
+                rows.append(self.run_test_case(case_no, m))
             else:
                 for i in range(1, len(self.samples) + 1):
-                    tb.add_row(self.run_test_case(i, m))
-            print(tb.get_string(title=method))
-            print()
+                    rows.append(self.run_test_case(i, m))
+
+            self.result[m] = rows
+        self.render()
 
     @staticmethod
     def test(filename, case_no=-1, method=''):
