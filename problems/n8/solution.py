@@ -33,4 +33,4 @@ class Solution(Problem):
 
 
 if __name__ == '__main__':
-    Solution.test(__file__, case_no=6)
+    Solution.test(__file__)

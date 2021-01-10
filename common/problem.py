@@ -62,16 +62,18 @@ class Problem(metaclass=abc.ABCMeta):
             raise ValueError(f'illegal case No: {case_no}')
         case = deepcopy(self.samples[case_no - 1])
         params = case['input']
+        multi_params = False
         if isinstance(params, dict):
             params = params.values()
+            multi_params = True
 
-        return {'params': params, 'expected': case['expected']}
+        return {'params': params, 'multi_params': multi_params, 'expected': case['expected']}
 
     def run_test_case(self, case_no, method):
         case = self.prepare_case(case_no)
         start = time.perf_counter_ns()
         params = case['params']
-        if not isinstance(params, str) and not isinstance(params, int) and not isinstance(params, bool):
+        if case['multi_params']:
             result = eval(f'self.{method}')(*params)
         else:
             result = eval(f'self.{method}')(params)
