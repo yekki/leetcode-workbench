@@ -22,7 +22,6 @@ def version():
     print(f'{APP_NAME} {APP_VERSION}, 作者：{APP_AUTHOR}')
     print('*' * 40)
 
-
 @cli.command()
 def count():
     p_list = os.listdir(Problem.PATH)

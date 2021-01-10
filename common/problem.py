@@ -45,6 +45,9 @@ class Problem(metaclass=abc.ABCMeta):
         with open(json_path, 'r') as fp:
             self.samples = json.load(fp)
 
+    def get_case_count(self):
+        return len(self.samples)
+
     # run before test begging, one test including many cases
     def prepare_test(self):
         pass
@@ -137,7 +140,14 @@ class Problem(metaclass=abc.ABCMeta):
 
         lib = importlib.import_module(f'problems.n{p_num}.solution')
         solution = lib.Solution(sample_file)
-        solution.run_test(case_no, method)
+        case_count = solution.get_case_count()
+
+        if method not in dir(solution) and method:
+            print(f'函数名"{method}"不存在，请检查函数名是否拼错或者题目编号错误。')
+        elif case_no > case_count:
+            print(f'侧试用例编号不存在，测试编号不能大于{case_count}。')
+        else:
+            solution.run_test(case_no, method)
 
     @staticmethod
     def create(n: int):
