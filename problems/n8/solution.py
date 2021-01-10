@@ -6,6 +6,7 @@ class Solution(Problem):
         s = s.lstrip()
         s = s.rstrip()
         flag = 1
+        n = 0
 
         if s[0] == '-':
             flag = -1
@@ -17,20 +18,21 @@ class Solution(Problem):
                 if s[i].isdecimal():
                     l = i + 1
                 else:
-                    print("fuck")
-                    n = int(s) * flag
-                    if n < -2 ** 31:
-                        return -2 ** 31
-                    if n >= 2 ** 31:
-                        return 2 ** 31 - 1
+                    s = s[0:l]
+                    print('###,', l)
+                    break
+        else:
+            return 0
 
-                    return n
-            else:
-                s = s[0:l]
-                n = int(s) * flag
-                return n
-        return 0
+        n = int(s) * flag
+
+        if n < -2 ** 31:
+            return -2 ** 31
+        if n >= 2 ** 31:
+            return 2 ** 31 - 1
+
+        return n
 
 
 if __name__ == '__main__':
-    Solution.test(__file__)
+    Solution.test(__file__, case_no=6)
