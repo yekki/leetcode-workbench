@@ -7,6 +7,7 @@ from prettytable import PrettyTable
 from copy import deepcopy
 from click import style
 from collections import namedtuple
+from typing import List
 
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
 
@@ -70,10 +71,10 @@ class Problem(metaclass=abc.ABCMeta):
         case = self.prepare_case(case_no)
         start = time.perf_counter_ns()
 
-        if isinstance(case['params'], str):
-            result = eval(f'self.{method}')(case['params'])
-        else:
+        if isinstance(case['params'], list) or isinstance(case['params'], List):
             result = eval(f'self.{method}')(*case['params'])
+        else:
+            result = eval(f'self.{method}')(case['params'])
 
         is_eq = self.eq(result, case['expected'])
         exec_time = (time.perf_counter_ns() - start) / 1000
