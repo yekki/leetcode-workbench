@@ -36,7 +36,7 @@ def _eq(a, b):
     return a == b
 
 
-TestResult = namedtuple('TestResult', ['method', 'case_no', 'passed', 'time', 'reason'])
+TestResult = namedtuple('TestResult', ['method', 'case_no', 'passed', 'consuming_time', 'reason'])
 
 
 class Problem(metaclass=abc.ABCMeta):
@@ -70,18 +70,18 @@ class Problem(metaclass=abc.ABCMeta):
     def run_test_case(self, case_no, method):
         case = self.prepare_case(case_no)
         start = time.perf_counter_ns()
-
-        if isinstance(case['params'], list) or isinstance(case['params'], List):
-            result = eval(f'self.{method}')(*case['params'])
+        params = case['params']
+        if not isinstance(params, str) and not isinstance(params, int) and not isinstance(params, bool):
+            result = eval(f'self.{method}')(*params)
         else:
-            result = eval(f'self.{method}')(case['params'])
+            result = eval(f'self.{method}')(params)
 
         is_eq = self.eq(result, case['expected'])
-        exec_time = (time.perf_counter_ns() - start) / 1000
+        consuming_time = (time.perf_counter_ns() - start) / 1000
 
         reason = '' if is_eq else f"实际：{result} 预期：{case['expected']}"
 
-        return TestResult(case_no=case_no, passed=is_eq, time=exec_time, reason=reason, method=method)
+        return TestResult(case_no=case_no, passed=is_eq, consuming_time=consuming_time, reason=reason, method=method)
 
     def render(self):
         case_count = -1
@@ -96,8 +96,9 @@ class Problem(metaclass=abc.ABCMeta):
 
             for r in rows:
                 passed = style('通过', fg='green') if r.passed else style('不通过', fg='red')
-                time = f'{r.time:.2f}μs'
-                tb.add_row([style(f'用例-{r.case_no}'), passed, time, r.reason])
+                consuming_time = f'{r.consuming_time:.2f}μs'
+                tb.add_row([style(f'用例-{r.case_no}'), passed, consuming_time, r.reason])
+
             tb.align['用时(单位：μs)'] = 'r'
             print(tb.get_string())
 

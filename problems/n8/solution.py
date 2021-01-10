@@ -6,20 +6,18 @@ class Solution(Problem):
         s = s.lstrip()
         s = s.rstrip()
         flag = 1
-        n = 0
 
         if s[0] == '-':
             flag = -1
             s = s[1:]
 
         if s[0].isdecimal():
-            l = 0
+            l = 1
             for i in range(1, len(s)):
                 if s[i].isdecimal():
                     l = i + 1
                 else:
                     s = s[0:l]
-                    print('###,', l)
                     break
         else:
             return 0
