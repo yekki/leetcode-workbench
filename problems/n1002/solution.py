@@ -12,15 +12,8 @@ class Solution(Problem):
 
         return c.elements()
 
-    @staticmethod
-    def eq(result, expected):
-        list_eq(result, expected)
-
-    #TODO error
-    def _validate(self, input, expected) -> tuple:
-        result = self.commonChars(input)
-
-        return list_eq(result, expected), result
+    def prepare_test(self):
+        self.eq = list_eq
 
 
 if __name__ == '__main__':

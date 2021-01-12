@@ -24,7 +24,7 @@ class Solution(Problem):
 
     def prepare_case(self, case_no):
         data = super().prepare_case(case_no)
-        params = list(data['params'])
+        params = data['params']
         params[0] = ListNode(params[0])
         params[1] = ListNode(params[1])
         data['params'] = params

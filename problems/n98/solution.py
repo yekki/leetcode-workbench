@@ -13,10 +13,11 @@ class Solution(Problem):
 
         return len(inorder) == len(set(inorder)) and inorder == sorted(inorder)
 
-    def _validate(self, input, expected) -> tuple:
-        tree = Tree(input)
-        result = self.isValidBST(tree.root)
-        return expected == result, result
+    def prepare_case(self, case_no):
+        data = self.get_case(case_no)
+        data['params'] = Tree(data['params'])
+
+        return data
 
 
 if __name__ == '__main__':

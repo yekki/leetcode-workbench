@@ -10,10 +10,6 @@ class Solution(Problem):
             i += 1
             j -= 1
 
-    def _validate(self, input, expected) -> tuple:
-        self.reverseString(input)
-        return input == expected, input
-
 
 if __name__ == '__main__':
     Solution.test(__file__)

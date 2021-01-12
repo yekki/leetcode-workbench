@@ -28,9 +28,8 @@ class Solution(Problem):
 
         return nums
 
-    @staticmethod
-    def eq(result, expected):
-        return list_eq(result,expected)
+    def prepare_test(self):
+        self.eq = list_eq
 
 
 if __name__ == '__main__':

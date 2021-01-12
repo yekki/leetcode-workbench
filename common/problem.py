@@ -64,7 +64,7 @@ class Problem(metaclass=abc.ABCMeta):
         params = case['input']
         multi_params = False
         if isinstance(params, dict):
-            params = params.values()
+            params = list(params.values())
             multi_params = True
 
         return {'params': params, 'multi_params': multi_params, 'expected': case['expected']}
