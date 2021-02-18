@@ -2,31 +2,22 @@ from common import Problem, list_eq
 from typing import List
 
 
-##TODO list compare
 class Solution(Problem):
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        if len(intervals) <= 1:
-            return intervals
 
-        intervals.sort()
+        res = []
 
-        nums = []
+        if len(intervals) == 0:
+            return res
 
-        lx = intervals.pop(0)
+        intervals.sort(key=lambda x: x[0])
 
-        for i in range(len(intervals)):
-            ly = intervals[i]
-
-            if lx[0] <= ly[0]:
-                if lx[1] <= ly[1]:
-                    lx[1] = ly[1]
+        for inter in intervals:
+            if len(res) == 0 or res[-1][1] < inter[0]:
+                res.append(inter)
             else:
-                nums.append(lx)
-                lx = intervals[i].copy()
-
-        nums.append(lx)
-
-        return nums
+                res[-1][1] = max(res[-1][1], inter[1])
+        return res
 
     def prepare_test(self):
         self.eq = list_eq
