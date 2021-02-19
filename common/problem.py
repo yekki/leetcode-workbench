@@ -91,7 +91,7 @@ class Problem(metaclass=abc.ABCMeta):
             tb = PrettyTable()
             tb.title = method
             tb.field_names = [style('测试', fg='blue'), style('结果', fg='blue'),
-                      style('用时', fg='blue'), style('原因', fg='blue')]
+                              style('用时', fg='blue'), style('原因', fg='blue')]
 
             if case_count == -1:
                 case_count = len(rows)
@@ -119,7 +119,8 @@ class Problem(metaclass=abc.ABCMeta):
         methods = self.get_methods(method)
 
         for m in methods:
-            if m in ['eq']: continue
+            if m in ['eq']:
+                continue
             rows = []
             if case_no != -1:
                 rows.append(self.run_test_case(case_no, m))

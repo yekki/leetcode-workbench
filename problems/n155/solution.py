@@ -22,11 +22,15 @@ class Solution(Problem):
         def getMin(self) -> int:
             return self.min_stack[-1]
 
-    def _validate(self, input, expected) -> tuple:
+
+    def exec(self, input, expected) -> tuple:
         inst = Solution.MinStack()
         result = exec_template_methods(inst, input['p1'], input['p2'])
 
         return list_eq(expected, result), result
+
+    def prepare_test(self):
+        self.eq = list_eq
 
 
 if __name__ == '__main__':
