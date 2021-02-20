@@ -7,9 +7,12 @@ from prettytable import PrettyTable
 from copy import deepcopy
 from click import style
 from collections import namedtuple
-from typing import List
+from inspect import ismethod, isclass
+from common import exec_template_methods
+
 
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
+IGNORE_METHODS = ['eq']
 
 TEMPLATE_SOLUTION = '''from common import Problem
 
@@ -43,17 +46,18 @@ class Problem(metaclass=abc.ABCMeta):
     def __init__(self, json_path):
         self.eq = _eq
         self.result = dict()
+        self.p_num = -1
         with open(json_path, 'r') as fp:
             self.samples = json.load(fp)
 
     def get_case_count(self):
         return len(self.samples)
 
-    # run before test begging, one test including many cases
+    # run before test begin, one test including many cases
     def prepare_test(self):
         pass
 
-    # run before test case begging
+    # run before test case begin
     def prepare_case(self, case_no):
         return self.get_case(case_no)
 
@@ -73,6 +77,7 @@ class Problem(metaclass=abc.ABCMeta):
         case = self.prepare_case(case_no)
         start = time.perf_counter_ns()
         params = case['params']
+
         if case['multi_params']:
             result = eval(f'self.{method}')(*params)
         else:
@@ -104,23 +109,10 @@ class Problem(metaclass=abc.ABCMeta):
             tb.align['用时(单位：μs)'] = 'r'
             print(tb.get_string())
 
-    def get_methods(self, method):
-
-        if method is not None and method != '':
-            return [method]
-
-        methods = [m for m in (set(dir(self)) - set(dir(Problem))) if callable(getattr(self, m))]
-        methods.sort()
-
-        return methods
-
-    def run_test(self, case_no, method):
+    def run_test(self, case_no, methods):
         self.prepare_test()
-        methods = self.get_methods(method)
 
         for m in methods:
-            if m in ['eq']:
-                continue
             rows = []
             if case_no != -1:
                 rows.append(self.run_test_case(case_no, m))
@@ -131,8 +123,40 @@ class Problem(metaclass=abc.ABCMeta):
             self.result[m] = rows
         self.render()
 
+    def get_test_methods(self, method=None, ignore_methods=IGNORE_METHODS):
+
+        if method is not None:
+            return [method]
+
+        methods = [m for m in (set(dir(self)) - set(dir(Problem))) if m not in ignore_methods and ismethod(getattr(self, m))]
+
+        clazz = self.get_inner_class()
+
+        if clazz:
+            methods.append('run_template_methods')
+
+        methods.sort()
+
+        return methods
+
+    # if there is an inner class, then the solution is template method.
+    def get_inner_class(self):
+        for m in (set(dir(self)) - set(dir(Problem))):
+            if isclass(getattr(self, m)):
+                return m
+        return None
+
+    # run template method
+    def run_template_methods(self, p1, p2):
+        clazz = self.get_inner_class()
+        lib = importlib.import_module(f'problems.n{self.p_num}.solution')
+        inst = eval(f'lib.Solution.{clazz}')()
+        result = exec_template_methods(inst, p1, p2)
+
+        return result
+
     @staticmethod
-    def test(filename, case_no=-1, method=''):
+    def test(filename, case_no=-1, method=None):
 
         p_num = os.path.dirname(filename).split('/')[-1][1:]
 
@@ -145,14 +169,16 @@ class Problem(metaclass=abc.ABCMeta):
 
         lib = importlib.import_module(f'problems.n{p_num}.solution')
         solution = lib.Solution(sample_file)
+        solution.p_num = p_num
         case_count = solution.get_case_count()
 
-        if method not in dir(solution) and method:
+        methods = solution.get_test_methods(method)
+        if method is not None and method not in methods:
             print(f'函数名"{method}"不存在，请检查函数名是否拼错或者题目编号错误。')
         elif case_no > case_count:
             print(f'侧试用例编号不存在，测试编号不能大于{case_count}。')
         else:
-            solution.run_test(case_no, method)
+            solution.run_test(case_no, methods)
 
     @staticmethod
     def create(n: int):
