@@ -9,6 +9,7 @@ from click import style
 from collections import namedtuple
 from inspect import ismethod, isclass
 from common import exec_template_methods
+from structure import ListNode
 
 
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
@@ -82,6 +83,9 @@ class Problem(metaclass=abc.ABCMeta):
             result = eval(f'self.{method}')(*params)
         else:
             result = eval(f'self.{method}')(params)
+
+        if isinstance(result, ListNode):
+            result = result.fix_none()
 
         is_eq = self.eq(result, case['expected'])
         consuming_time = (time.perf_counter_ns() - start) / 1000

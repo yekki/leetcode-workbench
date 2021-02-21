@@ -4,16 +4,25 @@ from structure import ListNode
 
 class Solution(Problem):
     def reverseList(self, head):
-        cur, prev = head, None
-        while cur:
-            cur.next, prev, cur = prev, cur, cur.next
-        return prev
+        if head is None:
+            return None
+        p = head
+        q = head.next
+        head.next = None
+        while q:
+            r = q.next
+            q.next = p
+            p = q
+            q = r
+        head = p
+        return head
 
-    def _validate(self, input, expected) -> tuple:
-        ln = ListNode(input)
-        result = self.reverseList(ln).fix_none()
+    def prepare_case(self, case_no):
+        case = super().prepare_case(case_no)
+        case['params'] = ListNode(case['params'])
+        case['expected'] = ListNode(case['expected'])
 
-        return result == ListNode(expected), result
+        return case
 
 
 if __name__ == '__main__':
