@@ -86,9 +86,6 @@ class Problem(metaclass=abc.ABCMeta):
         else:
             result = eval(f'self.{method}')(params)
 
-        # if isinstance(result, ListNode):
-        #     result = result.fix_none()
-
         is_eq = self.eq(result, case['expected'])
         consuming_time = (time.perf_counter_ns() - start) / 1000
 
