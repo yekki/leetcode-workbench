@@ -13,6 +13,9 @@ class Solution(Problem):
 
         return vals == vals[::-1]
 
+    def prepare_case(self, case):
+        case['params'] = ListNode(case['params'])
+
 
 if __name__ == '__main__':
     Solution.test(__file__)

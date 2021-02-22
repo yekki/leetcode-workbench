@@ -13,11 +13,8 @@ class Solution(Problem):
 
         return len(inorder) == len(set(inorder)) and inorder == sorted(inorder)
 
-    def prepare_case(self, case_no):
-        data = self.get_case(case_no)
-        data['params'] = Tree(data['params'])
-
-        return data
+    def prepare_case(self, case):
+        case['params'] = Tree(case['params'])
 
 
 if __name__ == '__main__':
