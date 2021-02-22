@@ -17,8 +17,7 @@ class Solution(Problem):
         head = p
         return head
 
-    def prepare_case(self, case_no):
-        case = super().prepare_case(case_no)
+    def prepare_case(self, case):
         case['params'] = ListNode(case['params'])
         case['expected'] = ListNode(case['expected'])
 

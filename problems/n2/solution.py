@@ -23,10 +23,8 @@ class Solution(Problem):
         return dummy.next
 
     def prepare_case(self, case):
-        params = case['params']
-        params[0] = ListNode(params[0])
-        params[1] = ListNode(params[1])
-        case['params'] = params
+        case['params'][0] = ListNode(case['params'][0])
+        case['params'][1] = ListNode(case['params'][1])
         case['expected'] = ListNode(case['expected'])
 
 

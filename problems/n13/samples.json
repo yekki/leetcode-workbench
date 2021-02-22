@@ -1,0 +1,18 @@
+[
+  {
+    "input": "III",
+    "expected": 3
+  },
+  {
+    "input": "IV",
+    "expected": 4
+  },
+  {
+    "input": "IX",
+    "expected": 9
+  },
+  {
+    "input": "LVIII",
+    "expected": 58
+  }
+]

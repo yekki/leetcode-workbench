@@ -48,20 +48,6 @@ class ListNode:
 
         return True
 
-    '''
-    Background: If input is 5->4->3->2->1->None, the reversed result should be: None->1->2->3->4->5, 
-    but the expected result should be: 1->2->3->4->5->None
-    
-    This function to fix this issue 
-    '''
-    def fix_none(self):
-        p = self
-        if self.val is None:
-            while p.next is not None:
-                p = p.next
-            p.next = ListNode(None)
-        return self.next
-
 
 if __name__ == "__main__":
     l1 = ListNode([2, 4, 8, 12, 14])
