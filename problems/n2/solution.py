@@ -22,14 +22,12 @@ class Solution(Problem):
 
         return dummy.next
 
-    def prepare_case(self, case_no):
-        data = super().prepare_case(case_no)
-        params = data['params']
+    def prepare_case(self, case):
+        params = case['params']
         params[0] = ListNode(params[0])
         params[1] = ListNode(params[1])
-        data['params'] = params
-        data['expected'] = ListNode(data['expected'])
-        return data
+        case['params'] = params
+        case['expected'] = ListNode(case['expected'])
 
 
 if __name__ == '__main__':

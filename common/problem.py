@@ -51,18 +51,19 @@ class Problem(metaclass=abc.ABCMeta):
         with open(json_path, 'r') as fp:
             self.samples = json.load(fp)
 
-    def get_case_count(self):
-        return len(self.samples)
-
     # run before test begin, one test including many cases
     def prepare_test(self):
         pass
 
-    # run before test case begin
-    def prepare_case(self, case_no):
-        return self.get_case(case_no)
+        # run before test case begin
 
-    def get_case(self, case_no):
+    def prepare_case(self, case):
+        pass
+
+    def _get_case_count(self):
+        return len(self.samples)
+
+    def _get_case(self, case_no):
         if case_no < 1:
             raise ValueError(f'illegal case No: {case_no}')
         case = deepcopy(self.samples[case_no - 1])
@@ -74,8 +75,9 @@ class Problem(metaclass=abc.ABCMeta):
 
         return {'params': params, 'multi_params': multi_params, 'expected': case['expected']}
 
-    def run_test_case(self, case_no, method):
-        case = self.prepare_case(case_no)
+    def _run_test_case(self, case_no, method):
+        case = self._get_case(case_no)
+        self.prepare_case(case)
         start = time.perf_counter_ns()
         params = case['params']
 
@@ -94,7 +96,7 @@ class Problem(metaclass=abc.ABCMeta):
 
         return TestResult(case_no=case_no, passed=is_eq, consuming_time=consuming_time, reason=reason, method=method)
 
-    def render(self):
+    def _render(self):
         case_count = -1
         for method, rows in self.result.items():
             tb = PrettyTable()
@@ -119,13 +121,13 @@ class Problem(metaclass=abc.ABCMeta):
         for m in methods:
             rows = []
             if case_no != -1:
-                rows.append(self.run_test_case(case_no, m))
+                rows.append(self._run_test_case(case_no, m))
             else:
                 for i in range(1, len(self.samples) + 1):
-                    rows.append(self.run_test_case(i, m))
+                    rows.append(self._run_test_case(i, m))
 
             self.result[m] = rows
-        self.render()
+        self._render()
 
     def get_test_methods(self, method=None, ignore_methods=IGNORE_METHODS):
 
@@ -134,17 +136,18 @@ class Problem(metaclass=abc.ABCMeta):
 
         methods = [m for m in (set(dir(self)) - set(dir(Problem))) if m not in ignore_methods and ismethod(getattr(self, m))]
 
-        clazz = self.get_inner_class()
-
-        if clazz:
+        if self._is_template_test():
             methods.append('run_template_methods')
 
         methods.sort()
 
         return methods
 
+    def _is_template_test(self):
+        return self._get_inner_class() is not None
+
     # if there is an inner class, then the solution is template method.
-    def get_inner_class(self):
+    def _get_inner_class(self):
         for m in (set(dir(self)) - set(dir(Problem))):
             if isclass(getattr(self, m)):
                 return m
@@ -152,7 +155,7 @@ class Problem(metaclass=abc.ABCMeta):
 
     # run template method
     def run_template_methods(self, p1, p2):
-        clazz = self.get_inner_class()
+        clazz = self._get_inner_class()
         lib = importlib.import_module(f'problems.n{self.p_num}.solution')
         inst = eval(f'lib.Solution.{clazz}')()
         result = exec_template_methods(inst, p1, p2)
@@ -174,7 +177,7 @@ class Problem(metaclass=abc.ABCMeta):
         lib = importlib.import_module(f'problems.n{p_num}.solution')
         solution = lib.Solution(sample_file)
         solution.p_num = p_num
-        case_count = solution.get_case_count()
+        case_count = solution._get_case_count()
 
         methods = solution.get_test_methods(method)
         if method is not None and method not in methods:
