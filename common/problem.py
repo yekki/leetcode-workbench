@@ -4,16 +4,13 @@ import time
 import os
 import importlib
 from prettytable import PrettyTable
+from collections import namedtuple
 from copy import deepcopy
 from click import style
-from collections import namedtuple
 from inspect import ismethod, isclass
-from common import exec_template_methods
-from structure import ListNode
-
+from common.utils import exec_template_methods
 
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
-IGNORE_METHODS = ['eq']
 
 TEMPLATE_SOLUTION = '''from common import Problem
 
@@ -35,13 +32,13 @@ TEMPLATE_SAMPLES = '''[
 ]
 '''
 
-
-def _eq(a, b):
-    return a == b
-
+IGNORE_METHODS = ['eq']
 
 TestResult = namedtuple('TestResult', ['method', 'case_no', 'passed', 'consuming_time', 'reason'])
 
+
+def _eq(a, b):
+    return a == b
 
 class Problem(metaclass=abc.ABCMeta):
     def __init__(self, json_path):
@@ -122,7 +119,6 @@ class Problem(metaclass=abc.ABCMeta):
             else:
                 for i in range(1, len(self.samples) + 1):
                     rows.append(self._run_test_case(i, m))
-
             self.result[m] = rows
         self._render()
 

@@ -10,6 +10,8 @@ APP_NAME='Leetcode Workbench'
 APP_VERSION = 'v1.6b'
 APP_AUTHOR = 'Gary Niu'
 
+os.environ['PYTHONPATH'] = '/Users/gniu/Workspaces/leetcode-workbench'
+
 
 @click.group()
 def cli():
@@ -39,17 +41,18 @@ def np(problem):
 
 
 @cli.command(help='执行测试')
-@click.option('--problem', '-p', type=click.INT, help='题目编号')
-@click.option('--case', '-c', type=click.INT, default=-1, help='题目编号')
-@click.option('--method', '-m', type=click.STRING, default='', help='题目编号')
+@click.option('--problem', '-p', required=True, type=click.INT, help='题目编号')
+@click.option('--case', '-c', type=click.INT, default=-1, help='测试用例编号')
+@click.option('--method', '-m', type=click.STRING, default=None, help='测试用例方法名')
 def test(problem, case, method):
     lib = importlib.import_module(f'problems.n{problem}.solution')
     py_file = os.path.join(PROBLEMS_PATH, f"n{problem}", 'solution.py')
+    print(py_file)
     lib.Solution.test(py_file, case, method)
 
 
 @cli.command(help='提交当前更新到github')
-@click.option('--comment', '-c', type=click.STRING, default='fix update',  help='题目编号')
+@click.option('--comment', '-c', type=click.STRING, default='fix update', help='提交信息')
 def commit(comment):
     os.system(f'git commit -am "{comment}"' )
     os.system('git push')

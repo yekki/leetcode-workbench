@@ -28,7 +28,7 @@ def timeit(func):
 
     return wrapper
 
-
+# list element value compare and ignore its order
 def list_eq(l1: List, l2: List) -> bool:
     if l1 == l2:
         return True
