@@ -122,7 +122,7 @@ class Problem(metaclass=abc.ABCMeta):
             self.result[m] = rows
         self._render()
 
-    def get_test_methods(self, method=None, ignore_methods=IGNORE_METHODS):
+    def _get_test_methods(self, method=None, ignore_methods=IGNORE_METHODS):
 
         if method is not None:
             return [method]
@@ -172,7 +172,7 @@ class Problem(metaclass=abc.ABCMeta):
         solution.p_num = p_num
         case_count = solution._get_case_count()
 
-        methods = solution.get_test_methods(method)
+        methods = solution._get_test_methods(method)
         if method is not None and method not in methods:
             print(f'函数名"{method}"不存在，请检查函数名是否拼错或者题目编号错误。')
         elif case_no > case_count:
