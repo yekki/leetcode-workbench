@@ -3,12 +3,15 @@ import json
 import time
 import os
 import importlib
+import traceback
 from prettytable import PrettyTable
 from collections import namedtuple
 from copy import deepcopy
 from click import style
 from inspect import ismethod, isclass
 from common.utils import exec_template_methods
+
+DEBUG = False
 
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
 
@@ -39,6 +42,7 @@ TestResult = namedtuple('TestResult', ['method', 'case_no', 'passed', 'consuming
 
 def _eq(a, b):
     return a == b
+
 
 class Problem(metaclass=abc.ABCMeta):
     def __init__(self, json_path):
@@ -77,11 +81,16 @@ class Problem(metaclass=abc.ABCMeta):
         self.prepare_case(case)
         start = time.perf_counter_ns()
         params = case['params']
+        result = None
 
-        if case['multi_params']:
-            result = eval(f'self.{method}')(*params)
-        else:
-            result = eval(f'self.{method}')(params)
+        try:
+            if case['multi_params']:
+                result = eval(f'self.{method}')(*params)
+            else:
+                result = eval(f'self.{method}')(params)
+        except:
+            if DEBUG:
+                traceback.print_exc()
 
         is_eq = self.eq(result, case['expected'])
         consuming_time = (time.perf_counter_ns() - start) / 1000
@@ -109,8 +118,9 @@ class Problem(metaclass=abc.ABCMeta):
             tb.align['用时(单位：μs)'] = 'r'
             print(tb.get_string())
 
-    def run_test(self, case_no, methods):
+    def _run_test(self, case_no, methods, render):
         self.prepare_test()
+        result = True
 
         for m in methods:
             rows = []
@@ -120,14 +130,23 @@ class Problem(metaclass=abc.ABCMeta):
                 for i in range(1, len(self.samples) + 1):
                     rows.append(self._run_test_case(i, m))
             self.result[m] = rows
-        self._render()
+
+            for r in rows:
+                if not r.passed:
+                    result = False
+                    break
+
+        if render: self._render()
+
+        return result
 
     def _get_test_methods(self, method=None, ignore_methods=IGNORE_METHODS):
 
         if method is not None:
             return [method]
 
-        methods = [m for m in (set(dir(self)) - set(dir(Problem))) if m not in ignore_methods and ismethod(getattr(self, m))]
+        methods = [m for m in (set(dir(self)) - set(dir(Problem))) if
+                   m not in ignore_methods and ismethod(getattr(self, m))]
 
         if self._is_template_test():
             methods.append('run_template_methods')
@@ -156,7 +175,7 @@ class Problem(metaclass=abc.ABCMeta):
         return result
 
     @staticmethod
-    def test(filename, case_no=-1, method=None):
+    def test(filename, case_no=-1, method=None, render=True):
 
         p_num = os.path.dirname(filename).split('/')[-1][1:]
 
@@ -173,12 +192,13 @@ class Problem(metaclass=abc.ABCMeta):
         case_count = solution._get_case_count()
 
         methods = solution._get_test_methods(method)
+
         if method is not None and method not in methods:
-            print(f'函数名"{method}"不存在，请检查函数名是否拼错或者题目编号错误。')
+            raise ValueError(f'函数名"{method}"不存在，请检查函数名是否拼错或者题目编号错误。')
         elif case_no > case_count:
-            print(f'侧试用例编号不存在，测试编号不能大于{case_count}。')
+            raise ValueError(f'侧试用例编号不存在，测试编号不能大于{case_count}。')
         else:
-            solution.run_test(case_no, methods)
+            return solution._run_test(case_no, methods, render)
 
     @staticmethod
     def create(n: int):

@@ -3,15 +3,13 @@
 import click
 import os
 import importlib
+from prettytable import PrettyTable
 from common import Problem, PROBLEMS_PATH
 
 
 APP_NAME='Leetcode Workbench'
 APP_VERSION = 'v1.6b'
 APP_AUTHOR = 'Gary Niu'
-
-os.environ['PYTHONPATH'] = '/Users/gniu/Workspaces/leetcode-workbench'
-
 
 @click.group()
 def cli():
@@ -41,14 +39,34 @@ def np(problem):
 
 
 @cli.command(help='执行测试')
-@click.option('--problem', '-p', required=True, type=click.INT, help='题目编号')
+@click.option('--problem', '-p', default=-1, type=click.INT, help='题目编号')
 @click.option('--case', '-c', type=click.INT, default=-1, help='测试用例编号')
 @click.option('--method', '-m', type=click.STRING, default=None, help='测试用例方法名')
-def test(problem, case, method):
-    lib = importlib.import_module(f'problems.n{problem}.solution')
-    py_file = os.path.join(PROBLEMS_PATH, f"n{problem}", 'solution.py')
-    print(py_file)
-    lib.Solution.test(py_file, case, method)
+@click.option('--error', '-e', type=click.BOOL, default=True, help='只显示未通过测试题目')
+def test(problem, case, method, error):
+    if problem == -1:
+        p_list = os.listdir(PROBLEMS_PATH)
+        result = dict()
+        for p in p_list:
+            lib = importlib.import_module(f'problems.{p}.solution')
+            py_file = os.path.join(PROBLEMS_PATH, f'{p}', 'solution.py')
+            result[p] = lib.Solution.test(py_file, case, method, False)
+
+        tb = PrettyTable()
+        tb.title = click.style('总体情况', fg='blue')
+        tb.field_names = [click.style('题目号', fg='blue'), click.style('测试结果', fg='blue')]
+        for k, v in result.items():
+            passed = click.style('通过', fg='green') if v else click.style('不通过', fg='red')
+            if error:
+                if not v:
+                    tb.add_row([k, passed])
+            else:
+                tb.add_row([k, passed])
+        print(tb.get_string())
+    else:
+        lib = importlib.import_module(f'problems.n{problem}.solution')
+        py_file = os.path.join(PROBLEMS_PATH, f'n{problem}', 'solution.py')
+        lib.Solution.test(py_file, case, method)
 
 
 @cli.command(help='提交当前更新到github')
