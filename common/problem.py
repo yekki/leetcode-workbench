@@ -149,11 +149,10 @@ class Problem(metaclass=abc.ABCMeta):
                    m not in ignore_methods and ismethod(getattr(self, m))]
 
         if self._is_template_test():
-            methods.append('run_template_methods')
-
-        methods.sort()
-
-        return methods
+            return ['run_template_methods']
+        else:
+            methods.sort()
+            return methods
 
     def _is_template_test(self):
         return self._get_inner_class() is not None
@@ -167,11 +166,7 @@ class Problem(metaclass=abc.ABCMeta):
 
     # run template method
     def run_template_methods(self, p1, p2):
-        clazz = self._get_inner_class()
-        lib = importlib.import_module(f'problems.n{self.p_num}.solution')
-        inst = eval(f'lib.Solution.{clazz}')()
-        result = exec_template_methods(inst, p1, p2)
-
+        result = exec_template_methods(self.p_num, p1, p2)
         return result
 
     @staticmethod

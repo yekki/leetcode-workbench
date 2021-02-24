@@ -4,16 +4,14 @@ from typing import List
 
 class Solution(Problem):
     def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
-        m = len(flowerbed)
-        for i in range(m):
-            if flowerbed[i] == 1: continue
-            if i > 0 and flowerbed[i - 1] == 1: continue
-            if i + 1 < m and flowerbed[i + 1] == 1: continue
-            flowerbed[i] = 1
-            n -= 1
-            if n == 0:
-                return True
-        return False
+        tem_list = [0] + flowerbed + [0]
+        num = len(tem_list)
+        k = 0
+        for i in range(1, num - 1):
+            if tem_list[i] == 0 and tem_list[i - 1] == 0 and tem_list[i + 1] == 0:
+                tem_list[i] = 1
+                k += 1
+        return k >= n  ##注意这里是大于等于而不是等于，看清题目
 
 
 if __name__ == '__main__':

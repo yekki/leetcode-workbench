@@ -2,7 +2,7 @@ import time
 from functools import wraps
 from typing import List
 import os
-
+import importlib
 
 def get_modules(package="."):
     modules = []
@@ -39,8 +39,10 @@ def list_eq(l1: List, l2: List) -> bool:
         else:
             return True
 
-
-def exec_template_methods(inst, function_list, param_list) -> List:
+#the first function should be constructed function
+def exec_template_methods(p_num, function_list, param_list) -> List:
+    lib = importlib.import_module(f'problems.n{p_num}.solution')
+    inst = eval(f'lib.Solution.{function_list[0]}')(*param_list[0])
     result = [None]
     for i, f in enumerate(function_list[1:]):
         func = getattr(inst, f)

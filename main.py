@@ -64,9 +64,12 @@ def test(problem, case, method, error):
                 tb.add_row([k, passed])
         print(tb.get_string())
     else:
-        lib = importlib.import_module(f'problems.n{problem}.solution')
-        py_file = os.path.join(PROBLEMS_PATH, f'n{problem}', 'solution.py')
-        lib.Solution.test(py_file, case, method)
+        try:
+            lib = importlib.import_module(f'problems.n{problem}.solution')
+            py_file = os.path.join(PROBLEMS_PATH, f'n{problem}', 'solution.py')
+            lib.Solution.test(py_file, case, method)
+        except:
+            print(f'题目{problem}您还没做呢！')
 
 
 @cli.command(help='提交当前更新到github')

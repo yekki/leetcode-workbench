@@ -25,11 +25,6 @@ class Solution(Problem):
 
             return self.pool[0]
 
-    # def _validate(self, input, expected) -> tuple:
-    #     inst = Solution.KthLargest(*input['p2'][0])
-    #     result = exec_template_methods(inst, input['p1'], input['p2'])
-    #     return result == expected, result
-
 
 if __name__ == '__main__':
     Solution.test(__file__)
