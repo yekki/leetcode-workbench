@@ -1,20 +1,13 @@
-import time
 from functools import wraps
 from typing import List
-import os
-import importlib
+from click import style
+from importlib import import_module
+import os, time
+from .constants import PROBLEMS_PATH
 
-def get_modules(package="."):
-    modules = []
-    files = os.listdir(package)
-
-    for file in files:
-        if not file.startswith("__"):
-            name, ext = os.path.splitext(file)
-            modules.append(name)
-
-    return modules
-
+def error(msg):
+    print(style(msg, fg='red'))
+    os._exit()
 
 def timeit(func):
     @wraps(func)
@@ -28,7 +21,6 @@ def timeit(func):
 
     return wrapper
 
-# list element value compare and ignore its order
 def list_eq(l1: List, l2: List) -> bool:
     if l1 == l2:
         return True
@@ -39,9 +31,9 @@ def list_eq(l1: List, l2: List) -> bool:
         else:
             return True
 
-#the first function should be constructed function
 def exec_template_methods(p_num, function_list, param_list) -> List:
-    lib = importlib.import_module(f'problems.n{p_num}.solution')
+
+    lib = import_module(f'problems.n{p_num}.solution')
     inst = eval(f'lib.Solution.{function_list[0]}')(*param_list[0])
     result = [None]
     for i, f in enumerate(function_list[1:]):
@@ -49,3 +41,24 @@ def exec_template_methods(p_num, function_list, param_list) -> List:
         result.append(func(*param_list[1:][i]))
 
     return result
+
+def get_problem_no(filepath):
+    problem_no = os.path.dirname(filepath).split('/')[-1][1:]
+
+    if problem_no.isdigit():
+        problem_no = int(problem_no)
+    else:
+        error(f'错误文件名:{filepath}')
+    
+    return problem_no
+
+def get_solution_clazz(filepath):
+    problem_no = get_problem_no(filepath)
+    return getattr(import_module(f'problems.n{problem_no}.solution'), 'Solution')
+
+def create_solution_inst(filepath):
+    clazz = get_solution_clazz(filepath)
+    problem_no = get_problem_no(filepath)
+    sample_file = os.path.join(PROBLEMS_PATH, f"n{problem_no}", 'samples.json')
+    inst = clazz(sample_file)
+    return inst
