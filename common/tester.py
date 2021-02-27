@@ -61,27 +61,39 @@ class Tester:
 
     def run_cases(self, case_no, method, for_scan):
         ret = list()
-
+        is_success = True
         if case_no == -1:
             for no in range(len(self.cases)):
-                ret.append(self.run_case(no, method, for_scan))
+                result = self.run_case(no, method, for_scan)
+                if not result.passed:
+                    is_success = False
+                ret.append(result)
         else:
-            case = self.cases[case_no - 1]
+            result = self.run_case(case_no, method, for_scan)
+            if not result.passed:
+                is_success = False
             ret.append(self.run_case(case_no, method, for_scan))
 
         self.results[method] = ret
 
-    def run_test(self, case_no, method, for_scan):
+        return is_success
+
+    def run_test(self, case_no, method, for_scan, is_render):
         # hook method
         self.prepare_test()
-
+        is_success = True
         if method is None:
             for m in self.methods:
-                self.run_cases(case_no, m, for_scan)
+                if not self.run_cases(case_no, m, for_scan):
+                    is_success = False
         else:
-            self.run_cases(case_no, method, for_scan)
+            if self.run_cases(case_no, method, for_scan):
+                is_success = False
 
-        self.render(for_scan)
+        if is_render:
+            self.render(for_scan)
+
+        return is_success
 
     def is_test_success(self):
         for row in self.results.values():

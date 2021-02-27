@@ -21,7 +21,7 @@ class Problem(Tester):
                 self.methods = ['run_template_methods']
 
     @staticmethod
-    def test(filepath, case_no=-1, method=None, for_scan=False):
+    def test(filepath, case_no=-1, method=None, for_scan=False, is_render=True):
         inst = create_solution_inst(filepath)
 
         case_count = len(inst.cases)
@@ -32,7 +32,7 @@ class Problem(Tester):
         if case_no > case_count:
             error(f'侧试用例编号不存在，测试编号不能大于{case_count}。')
 
-        return inst.run_test(case_no, method, for_scan)
+        return inst.run_test(case_no=case_no, method=method, for_scan=for_scan, is_render=is_render)
 
     @staticmethod
     def create(n: int):

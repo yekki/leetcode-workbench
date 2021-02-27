@@ -45,11 +45,18 @@ def test(problem, case, method):
     clazz.test(py_file, case, method)
 
 @cli.command(help='扫描问题')
-def scan():
+@click.option('--details', '-d', type=click.BOOL, default=False, help='显示详情')
+def scan(details):
     p_list = os.listdir(PROBLEMS_PATH)
+    error_count = 0
+
     for p in p_list:
         py_file = os.path.join(PROBLEMS_PATH, f'{p}', 'solution.py')
-        get_solution_clazz(py_file).test(py_file, for_scan=True)
+        is_success = get_solution_clazz(py_file).test(py_file, for_scan=True, is_render=details)
+        if not is_success:
+            error_count += 1
+
+    print(f'完成题目总数：{len(p_list)}, 出错题目数量：{error_count}')
 
 @cli.command(help='提交当前更新到github')
 @click.option('--comment', '-c', type=click.STRING, default='fix update', help='提交信息')
