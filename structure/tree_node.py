@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class TreeNode(object):
     def __init__(self, val):
         self.val = val
@@ -6,93 +9,78 @@ class TreeNode(object):
 
 
 class Tree(object):
-    def __init__(self, values):
-        self._root = None
+    def __init__(self, values=None):
+        if not values:
+            return None
+        self.root = TreeNode(values[0])
+        queue = deque([self.root])
+        leng = len(values)
+        nums = 1
+        while nums < leng:
+            node = queue.popleft()
+            if node:
+                node.left = TreeNode(values[nums]) if values[nums] else None
+                queue.append(node.left)
+                if nums + 1 < leng:
+                    node.right = TreeNode(values[nums+1]) if values[nums+1] else None
+                    queue.append(node.right)
+                    nums += 1
+                nums += 1
 
-        for v in values:
-            self.add(v)
-
-    @property
-    def root(self):
-        self._root
-
-    def add(self, val):  # 二叉树，添加一个元素
-        node = TreeNode(val=val)
-        if self._root is None:
-            self._root = node
-            return
-
-        queue = [self._root]
-
+    def bfs(self):
+        ret = []
+        queue = deque([self.root])
         while queue:
-            cur_node = queue.pop(0)
-            if cur_node.left is None:
-                cur_node.left = node
+            node = queue.popleft()
+            if node:
+                ret.append(node.val)
+                queue.append(node.left)
+                queue.append(node.right)
+        return ret
+
+    def pre_traversal(self):
+        ret = []
+
+        def traversal(head):
+            if not head:
                 return
-            else:
-                queue.append(cur_node.left)
+            ret.append(head.val)
+            traversal(head.left)
+            traversal(head.right)
+        traversal(self.root)
+        return ret
 
-            if cur_node.right is None:
-                cur_node.right = node
+    def in_traversal(self):
+        ret = []
+
+        def traversal(head):
+            if not head:
                 return
-            else:
-                queue.append(cur_node.right)
+            traversal(head.left)
+            ret.append(head.val)
+            traversal(head.right)
 
-    def preorder(self, node):  # 根左右，递归
-        if node is None:
-            return
-        print(node.val, end=' ')
-        self.preorder(node.left)
-        self.preorder(node.right)
+        traversal(self.root)
+        return ret
 
-    # 先序打印二叉树（非递归）
-    @staticmethod
-    def preorder_traverse(node):
-        stack = [node]
-        while stack:
-            node = stack.pop()
-            print(node.val, end=' ')
-            if node.right is not None:
-                stack.append(node.right)
-            if node.left is not None:
-                stack.append(node.left)
+    def post_traversal(self):
+        ret = []
 
-    def inorder(self, node):  # 左根右，递归
-        if node is None:
-            return
-        self.inorder(node.left)
-        print(node.val, end=' ')
-        self.inorder(node.right)
+        def traversal(head):
+            if not head:
+                return
+            traversal(head.left)
+            traversal(head.right)
+            ret.append(head.val)
 
-    def postorder(self, node):  # 左根右，递归
-        if node is None:
-            return
-        self.postorder(node.left)
-        self.postorder(node.right)
-        print(node.val, end=' ')
-
-    # 求二叉树节点个数
-    def tree_node_count(self, node):
-        if node is None:
-            return 0
-        nums = self.tree_node_count(node.left)
-        nums += self.tree_node_count(node.right)
-        return nums + 1
-
-    # 二叉树的最大深度
-    @staticmethod
-    def btree_depth(node):
-        if node is None:
-            return 0
-        ldepth = Tree.btree_depth(node.left)
-        rdepth = Tree.btree_depth(node.right)
-        return max(ldepth, rdepth) + 1
+        traversal(self.root)
+        return ret
 
     def print(self):
         # 广度优先遍历值
-        ls = [self._root]
+        ls = [self.root]
         pre_ls = []
-        data = [[self._root.val]]
+        data = [[self.root.val]]
 
         while ls:
             cur = ls.pop(0)
@@ -165,6 +153,7 @@ class Tree(object):
 
 
 if __name__ == '__main__':
-    values = [5, 1, 4,None, None, 3, 6]
+    values = [5, 1, 4, None, None, 3, 6]
     tree = Tree(values)
+    print(tree.bfs())
     tree.print()

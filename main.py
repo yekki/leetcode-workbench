@@ -13,21 +13,11 @@ def cli():
     pass
 
 
-@cli.command(help='查看应用信息')
+@cli.command(help='查看应用说明')
 def version():
     print('*' * 40)
     print(f'{APP_NAME} {APP_VERSION}, 作者：{APP_AUTHOR}')
     print('*' * 40)
-
-
-@cli.command(help='查看完成题目数')
-def count():
-    p_list = os.listdir(PROBLEMS_PATH)
-    p_list.sort()
-
-    print(f'已完成题目:{len(p_list)}个')
-    print(f'最后保存文件：{p_list[-1]}')
-
 
 @cli.command(help='创建新题目')
 @click.option('--problem', '-p', type=click.INT, help='题目编号')
@@ -44,8 +34,8 @@ def test(problem, case, method):
     clazz = get_solution_clazz(py_file)
     clazz.test(py_file, case, method)
 
-@cli.command(help='扫描问题')
-@click.option('--details', '-d', type=click.BOOL, default=False, help='显示详情')
+@cli.command(help='扫描所有题目情况')
+@click.option('--details', '-d', is_flag=True, help='是否显示详情')
 def scan(details):
     p_list = os.listdir(PROBLEMS_PATH)
     error_count = 0
@@ -59,7 +49,7 @@ def scan(details):
     print(f'完成题目总数：{len(p_list)}, 出错题目数量：{error_count}')
 
 @cli.command(help='提交当前更新到github')
-@click.option('--comment', '-c', type=click.STRING, default='fix update', help='提交信息')
+@click.option('--comment', '-c', type=click.STRING, default='fix update', help='本次提交备注说明')
 def commit(comment):
     os.system(f'git commit -am "{comment}"' )
     os.system('git push')

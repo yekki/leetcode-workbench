@@ -1,6 +1,7 @@
 import time, traceback, json
 from prettytable import PrettyTable
 from click import style
+from copy import deepcopy
 from .constants import TestResult
 from .utils import exec_template_methods, get_problem_no
 
@@ -14,9 +15,7 @@ class Tester:
         self.results = dict()
         self.problem_no = get_problem_no(json_path)
         self.eq = lambda a, b: a == b
-        self._init_cases()
 
-    def _init_cases(self):
         for case_no, case in enumerate(self.samples):
             params = case['input']
             is_multi_params = False
@@ -24,7 +23,7 @@ class Tester:
                 params = list(params.values())
                 is_multi_params = True
 
-            self.cases.append({'case_no': case_no, 'params': params, 'is_multi_params': is_multi_params, 'expected': case['expected']} )
+            self.cases.append({'case_no': case_no, 'params': params, 'is_multi_params': is_multi_params, 'expected': case['expected'], 'actual': None, 'method': None} )
 
     def prepare_test(self):
         pass
@@ -32,30 +31,35 @@ class Tester:
     def prepare_case(self, case):
         pass
 
+    def post_case(self, case):
+        pass
+
     def run_template_methods(self, p1, p2):
         result = exec_template_methods(self.problem_no, p1, p2)
         return result
 
     def run_case(self, case_no, method, for_scan):
-        case = self.cases[case_no]
+        case = deepcopy(self.cases[case_no])
         self.prepare_case(case)
         start = time.perf_counter_ns()
         params = case['params']
-        ret = None
+        case['method'] = method
 
         try:
             if case['is_multi_params']:
-                ret = eval(f'self.{method}')(*params)
+                case['actual'] = eval(f'self.{method}')(*params)
             else:
-                ret = eval(f'self.{method}')(params)
+                case['actual'] = eval(f'self.{method}')(params)
         except:
             if not for_scan:
                 traceback.print_exc()
 
-        is_eq = self.eq(ret, case['expected'])
-        consuming_time = (time.perf_counter_ns() - start) / 1000
+        self.post_case(case)
 
-        reason = '' if is_eq else f"实际：{ret} 预期：{case['expected']}"
+        is_eq = self.eq(case['actual'], case['expected'])
+
+        consuming_time = (time.perf_counter_ns() - start) / 1000
+        reason = '' if is_eq else f"实际：{case['actual']} 预期：{case['expected']}"
 
         return TestResult(case_no=case_no, passed=is_eq, consuming_time=consuming_time, reason=reason, method=method)
 

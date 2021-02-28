@@ -3,24 +3,15 @@ from common import Problem
 
 class Solution(Problem):
     def licenseKeyFormatting(self, S: str, K: int) -> str:
-        s = S.replace('-', '').upper()
-        n = len(s) // K
-        l = len(s) % K
-
-        if l == 0:
-            r = s[0:K]
-            n -= 1
-            start = K
-        else:
-            r = s[0:l]
-            start = l
-
-        for i in range(n):
-            r += '-'
-            r += s[start:start + K]
-            start += (start + K - 1)
-
-        return r
+        s = S.replace("-", '').upper()
+        x = len(s) % K
+        res = s[:x]
+        for i in range(x, len(s), K):
+            if res:
+                res += '-' + s[i:i + K]
+            else:
+                res = s[i:i + K]
+        return res
 
 
 if __name__ == '__main__':

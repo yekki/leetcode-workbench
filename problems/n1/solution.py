@@ -50,4 +50,4 @@ class Solution(Problem):
 
 
 if __name__ == '__main__':
-    Solution.test(__file__, 1)
+    Solution.test(__file__, 1, 'twoSum_3')

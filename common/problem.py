@@ -9,9 +9,7 @@ from .constants import RUN_TEST_CASE_IGNORE_METHODS, PROBLEMS_PATH, TEMPLATE_SOL
 class Problem(Tester):
     def __init__(self, json_path):
         super().__init__(json_path)
-        self._init_methods()
 
-    def _init_methods(self):
         self.methods = [m for m in (set(dir(self)) - set(dir(Problem))) if
                         m not in RUN_TEST_CASE_IGNORE_METHODS and ismethod(getattr(self, m))]
         self.methods.sort()
