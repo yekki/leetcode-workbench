@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
 # coding=utf-8
 import os, click
-from common import Problem, PROBLEMS_PATH, get_solution_clazz
+from prettytable import PrettyTable
+from common import Problem, RenderType, PROBLEMS_PATH, Colour, colored, get_solution_clazz
 
 
 APP_NAME='Leetcode Workbench'
-APP_VERSION = 'v1.8b'
+APP_VERSION = 'v2.0b'
 APP_AUTHOR = 'Gary Niu'
+APP_AUTHOR_EMAIL = 'gary.niu@gmail.com'
 
 @click.group()
 def cli():
     pass
 
-
 @cli.command(help='查看应用说明')
 def version():
-    print('*' * 40)
-    print(f'{APP_NAME} {APP_VERSION}, 作者：{APP_AUTHOR}')
-    print('*' * 40)
+    tb = PrettyTable()
+    tb.field_names = [f'{APP_NAME} {APP_VERSION}']
+    tb.add_row([f'作者：{APP_AUTHOR} 联系方式：{APP_AUTHOR_EMAIL}'])
+    print(tb.get_string())
 
 @cli.command(help='创建新题目')
 @click.option('--problem', '-p', type=click.INT, help='题目编号')
@@ -35,18 +37,18 @@ def test(problem, case, method):
     clazz.test(py_file, case, method)
 
 @cli.command(help='扫描所有题目情况')
-@click.option('--details', '-d', is_flag=True, help='是否显示详情')
-def scan(details):
-    p_list = os.listdir(PROBLEMS_PATH)
+def scan():
     error_count = 0
-
-    for p in p_list:
+    passed_count = 0
+    for p in os.listdir(PROBLEMS_PATH):
         py_file = os.path.join(PROBLEMS_PATH, f'{p}', 'solution.py')
-        is_success = get_solution_clazz(py_file).test(py_file, for_scan=True, is_render=details)
-        if not is_success:
+        if get_solution_clazz(py_file).test(filepath=py_file, render_type=RenderType.SCAN):
+            passed_count += 1
+        else:
             error_count += 1
 
-    print(f'完成题目总数：{len(p_list)}, 出错题目数量：{error_count}')
+    print(colored(msg=f'您有{passed_count}道题通过测试，{error_count}道题未测试通过！', color=Colour.FOOTER))
+
 
 @cli.command(help='提交当前更新到github')
 @click.option('--comment', '-c', type=click.STRING, default='fix update', help='本次提交备注说明')

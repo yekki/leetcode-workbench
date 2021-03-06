@@ -1,9 +1,11 @@
+import os, time
 from functools import wraps
 from typing import List
 from click import style
 from importlib import import_module
-import os, time
 from .constants import PROBLEMS_PATH
+from .renderer import RenderType, Renderer, Colour
+
 
 def error(msg):
     print(style(msg, fg='red'))
@@ -31,9 +33,9 @@ def list_eq(l1: List, l2: List) -> bool:
         else:
             return True
 
-def exec_template_methods(p_num, function_list, param_list) -> List:
+def exec_template_methods(problem_no: int, function_list: list, param_list: list) -> List:
 
-    lib = import_module(f'problems.n{p_num}.solution')
+    lib = import_module(f'problems.n{problem_no}.solution')
     inst = eval(f'lib.Solution.{function_list[0]}')(*param_list[0])
     result = [None]
     for i, f in enumerate(function_list[1:]):
@@ -42,7 +44,7 @@ def exec_template_methods(p_num, function_list, param_list) -> List:
 
     return result
 
-def get_problem_no(filepath):
+def get_problem_no(filepath: str):
     problem_no = os.path.dirname(filepath).split('/')[-1][1:]
 
     if problem_no.isdigit():
@@ -52,13 +54,13 @@ def get_problem_no(filepath):
     
     return problem_no
 
-def get_solution_clazz(filepath):
+def get_solution_clazz(filepath: str):
     problem_no = get_problem_no(filepath)
     return getattr(import_module(f'problems.n{problem_no}.solution'), 'Solution')
 
-def create_solution_inst(filepath):
+def create_solution_inst(filepath: str, render_type: RenderType):
     clazz = get_solution_clazz(filepath)
     problem_no = get_problem_no(filepath)
     sample_file = os.path.join(PROBLEMS_PATH, f"n{problem_no}", 'samples.json')
-    inst = clazz(sample_file)
+    inst = clazz(sample_file, renderer=Renderer(problem_no=problem_no, render_type=render_type))
     return inst

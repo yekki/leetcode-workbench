@@ -9,7 +9,7 @@ class TreeNode(object):
 
 
 class Tree(object):
-    def __init__(self, values=None):
+    def __init__(self, values = None):
         if not values:
             return None
         self.root = TreeNode(values[0])
