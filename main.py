@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 # coding=utf-8
-import os, click
+import os, click, json
 from prettytable import PrettyTable
-from common import Problem, RenderType, PROBLEMS_PATH, Colour, colored, get_solution_clazz
+from common import Problem, RenderType, PROBLEMS_PATH, BASE_URL, Colour, colored, get_solution_clazz
 
-
-APP_NAME='Leetcode Workbench'
-APP_VERSION = 'v2.0b'
-APP_AUTHOR = 'Gary Niu'
-APP_AUTHOR_EMAIL = 'gary.niu@gmail.com'
+with open(os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'config', 'config.json'), 'r') as fp:
+    config = json.load(fp)
 
 @click.group()
 def cli():
@@ -16,10 +13,20 @@ def cli():
 
 @cli.command(help='查看应用说明')
 def version():
+    info = config['app_info']
     tb = PrettyTable()
-    tb.field_names = [f'{APP_NAME} {APP_VERSION}']
-    tb.add_row([f'作者：{APP_AUTHOR} 联系方式：{APP_AUTHOR_EMAIL}'])
+    tb.field_names = ['{} {}'.format(info['app_name'], info['app_version'])]
+    tb.add_row(['作者：{} 联系方式：{}'.format(info['app_author'], info['app_author_email'])])
     print(tb.get_string())
+
+@cli.command(help='查看Leetcode网站')
+@click.option('--problem', '-p', required=True, type=click.INT, help='题目编号')
+def info(problem):
+    problems = config['problems']
+    for p in problems:
+        if int(p['no']) == problem:
+            os.system('open {}/{}/'.format(BASE_URL, p['en_name']))
+
 
 @cli.command(help='创建新题目')
 @click.option('--problem', '-p', type=click.INT, help='题目编号')

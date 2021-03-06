@@ -7,7 +7,7 @@ TestCase = namedtuple('TestCase', ['case_no', 'params', 'is_multi_params', 'expe
 
 PROBLEMS_PATH = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'problems')
 RUN_TEST_CASE_IGNORE_METHODS = ['eq']
-
+BASE_URL = 'https://leetcode-cn.com/problems'
 
 TEMPLATE_SOLUTION = '''from common import Problem
 
