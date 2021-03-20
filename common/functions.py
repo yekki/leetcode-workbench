@@ -4,12 +4,13 @@ from typing import List
 from click import style
 from importlib import import_module
 from .constants import PROBLEMS_PATH
-from .renderer import RenderType, Renderer, Colour
+from .renderer import RenderType, Renderer
 
 
 def error(msg):
     print(style(msg, fg='red'))
     os._exit()
+
 
 def timeit(func):
     @wraps(func)
@@ -23,18 +24,17 @@ def timeit(func):
 
     return wrapper
 
+
 def list_eq(l1: List, l2: List) -> bool:
     if l1 == l2:
         return True
-    else:
-        for a in l1:
-            if a not in l2:
-                return False
-        else:
-            return True
+    if l1 is None or l2 is None:
+        return False
+
+    return l1.sort() == l2.sort()
+
 
 def exec_template_methods(problem_no: int, function_list: list, param_list: list) -> List:
-
     lib = import_module(f'problems.n{problem_no}.solution')
     inst = eval(f'lib.Solution.{function_list[0]}')(*param_list[0])
     result = [None]
@@ -44,19 +44,25 @@ def exec_template_methods(problem_no: int, function_list: list, param_list: list
 
     return result
 
+
 def get_problem_no(filepath: str):
+    if filepath is None:
+        error(f'错误文件名:{filepath}')
+
     problem_no = os.path.dirname(filepath).split('/')[-1][1:]
 
-    if problem_no.isdigit():
+    try:
         problem_no = int(problem_no)
-    else:
+    except:
         error(f'错误文件名:{filepath}')
-    
+
     return problem_no
+
 
 def get_solution_clazz(filepath: str):
     problem_no = get_problem_no(filepath)
     return getattr(import_module(f'problems.n{problem_no}.solution'), 'Solution')
+
 
 def create_solution_inst(filepath: str, render_type: RenderType):
     clazz = get_solution_clazz(filepath)
